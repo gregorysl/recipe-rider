@@ -15,5 +15,5 @@ export const addProduct = product => ({
 });
 
 export const getProducts = () => ({
-  type: types.GET_PRODUCT_ERROR
+  type: types.GET_PRODUCT_REQUEST
 });

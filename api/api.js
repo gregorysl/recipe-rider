@@ -1,9 +1,8 @@
 const recipes = ['asd'];
 
 const products = [{
-  name: 'jajka',
-  price: '0.7',
-  quantifier: 'sztuka'
+  key: 'jajka',
+  unitPrice: '0.7'
 }];
 
 export function addRecipe(recipe) {
