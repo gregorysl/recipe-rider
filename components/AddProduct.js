@@ -1,53 +1,45 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Input, Icon, Select } from 'antd';
-import { addRecipe } from '../actions/actions';
+import { Row, Input, InputNumber, Icon } from 'antd';
+import { addProduct } from '../actions/actions';
 
-
-const InputGroup = Input.Group;
-const { Option } = Select;
 
 class AddProduct extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: props.note
+      key: '',
+      unitPrice: 0
     };
     this.confirmNote = this.confirmNote.bind(this);
+    this.handleInputChange = this.handleInputChange.bind(this);
+    this.handleNumberChange = this.handleNumberChange.bind(this);
   }
+  handleInputChange(event) {
+    const { target } = event;
+    const { name } = target;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
 
-  updateInputValue(evt) {
     this.setState({
-      value: evt.target.value
+      [name]: value
+    });
+  }
+  handleNumberChange(number) {
+    this.setState({
+      unitPrice: number
     });
   }
 
   confirmNote() {
-    const data =
-    {
-      value: this.state.value
-    };
-    this.props.addRecipe(data);
+    this.props.addRecipe(this.state);
   }
 
   render() {
     return (
       <React.Fragment>
-        <Input
-          className="tag-input"
-          placeholder="Note"
-          type="text"
-          value={this.state.value}
-          onChange={evt => this.updateInputValue(evt)}
-        />
-        <InputGroup compact>
-          <Input style={{ width: '50%' }} defaultValue="Xihu District, Hangzhou" />
-          <Select defaultValue="Zhejiang">
-            <Option value="Zhejiang">Zhejiang</Option>
-            <Option value="Jiangsu">Jiangsu</Option>
-          </Select>
-        </InputGroup>
+        <Row>Nazwa<Input className="tag-input" placeholder="Nazwa" name="key" onChange={this.handleInputChange} type="text" /></Row>
+        <Row>Cena jednostkowa<InputNumber name="unitPrice" step={0.01} precision={2} onChange={this.handleNumberChange} /></Row>
         <Icon className="icon-hand" onClick={this.confirmNote} type="check" />
       </React.Fragment>
     );
@@ -56,13 +48,15 @@ class AddProduct extends Component {
 
 const mapDispatchToProps = dispatch => ({
   addRecipe: (data) => {
-    dispatch(addRecipe(data));
+    dispatch(addProduct(data));
   }
 });
-AddProduct.defaultProps = { note: '' };
+// AddProduct.defaultProps = { note: '' };
 
 AddProduct.propTypes = {
-  note: PropTypes.string,
+  // name: PropTypes.string,
+  // name: PropTypes.string,
   addRecipe: PropTypes.func.isRequired
 };
+
 export default connect(null, mapDispatchToProps)(AddProduct);
