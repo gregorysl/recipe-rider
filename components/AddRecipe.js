@@ -1,31 +1,25 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Input, Icon, Select, Form, Button } from 'antd';
+import { Input, Icon, Form, Button } from 'antd';
 import AddProductToRecipe from './AddProductToRecipe';
 import { addRecipe, getProducts } from '../actions/actions';
 
-const { Option } = Select;
 const FormItem = Form.Item;
 let uuid = 0;
 class AddRecipe extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      // key: '',
-      // products: [],
-      value: props.note
-    };
-    this.confirmNote = this.confirmNote.bind(this);
+
     this.remove = this.remove.bind(this);
     this.add = this.add.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.defaultGetValueFromEvent = this.defaultGetValueFromEvent.bind(this);
   }
 
   componentDidMount() {
     this.props.getProducts();
   }
+
   remove(k) {
     const { form } = this.props;
     const keys = form.getFieldValue('keys');
@@ -53,31 +47,12 @@ class AddRecipe extends Component {
     this.props.form.validateFields((err, values) => {
       if (!err) {
         console.log('Received values of form: ', values);
+
+        this.props.addRecipe(values);
       }
     });
   }
 
-  updateInputValue(evt) {
-    this.setState({
-      value: evt.target.value
-    });
-  }
-
-  defaultGetValueFromEvent(e) {
-    if (!e || !e.target) {
-      return e;
-    }
-    const { target } = e;
-    return target.type === 'checkbox' ? target.checked : `${target.value} asdasd`;
-  }
-
-  confirmNote() {
-    const data =
-    {
-      value: this.state.value
-    };
-    this.props.addRecipe(data);
-  }
   checkProduct = (rule, value, callback) => {
     if (value.name !== '' && value.product !== '') {
       callback();
@@ -98,18 +73,11 @@ class AddRecipe extends Component {
         sm: { span: 20 }
       }
     };
-    const formItemLayoutWithOutLabel = {
-      wrapperCol: {
-        xs: { span: 24, offset: 0 },
-        sm: { span: 20, offset: 4 }
-      }
-    };
     getFieldDecorator('keys', { initialValue: [] });
     const keys = getFieldValue('keys');
-    const formItems = keys.map((k, index) => (
+    const formItems = keys.map(k => (
       <FormItem
-        {...(index === 0 ? formItemLayout : formItemLayoutWithOutLabel)}
-        label={index === 0 ? 'Passengers' : ''}
+        {...(formItemLayout)}
         required={false}
         key={k}
       >
@@ -130,25 +98,21 @@ class AddRecipe extends Component {
     return (
       <React.Fragment>
         <Form onSubmit={this.handleSubmit}>
+          <FormItem {...formItemLayout}>
+            {getFieldDecorator('title', {
+            rules: [{ required: true, message: 'Please input your username!' }]
+          })(<Input style={{ width: '60%' }} placeholder="Note" type="text" />)}
+          </FormItem>
           {formItems}
-          <FormItem {...formItemLayoutWithOutLabel}>
+          <FormItem {...formItemLayout}>
             <Button type="dashed" onClick={this.add} style={{ width: '60%' }}>
               <Icon type="plus" /> Dodaj Składnik
             </Button>
           </FormItem>
-          <FormItem {...formItemLayoutWithOutLabel}>
+          <FormItem {...formItemLayout}>
             <Button type="primary" htmlType="submit">Submit</Button>
           </FormItem>
         </Form>
-        <Input
-          className="tag-input"
-          placeholder="Note"
-          type="text"
-          value={this.state.value}
-          onChange={evt => this.updateInputValue(evt)}
-        />
-
-        <Icon className="icon-hand" onClick={this.confirmNote} type="check" />
       </React.Fragment>
     );
   }
