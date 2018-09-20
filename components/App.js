@@ -15,7 +15,11 @@ class App extends Component {
   }
   render() {
     const data = this.props.table.map(x => (<h2>{x}</h2>));
-    const data2 = this.props.products.map(x => (<h2>Name: {x.key}, price: {x.unitPrice}</h2>));
+    const data2 = this.props.products.map(x => (
+      <h2>key: {x.key}, bigSpoon: {x.bigSpoon},
+     glass: {x.glass}, grams: {x.grams}, name: {x.name},
+     measurement: {x.measurement}, smallSpoon: {x.smallSpoon}, unitPrice: {x.unitPrice}
+      </h2>));
     return (
       <Layout className="layout">
         <Header>
