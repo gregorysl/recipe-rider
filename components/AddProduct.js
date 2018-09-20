@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Input, Form, Button, InputNumber, Col } from 'antd';
 import { addProduct } from '../actions/actions';
+import MeasurementUnit from './MeasurementUnit';
 
 const FormItem = Form.Item;
 
@@ -34,7 +35,13 @@ class AddProduct extends Component {
         <FormItem>
           {getFieldDecorator('key', {
             rules: [{ required: true, message: 'Podaj nazwę produktu' }]
-          })(<Input />)}
+          })(<Input name="productName" />)}
+        </FormItem>
+        <h3>Domyślna miara</h3>
+        <FormItem>
+          { /* eslint-disable react/jsx-indent */
+            getFieldDecorator('measurement', { initialValue: 'grams', valuePropName: 'defaultValue' })(<MeasurementUnit />)
+          /* eslint-enable */}
         </FormItem>
         <h3>Cena Jednostkowa</h3>
         <FormItem>
@@ -50,7 +57,7 @@ class AddProduct extends Component {
           </Col>
           <Col span={11}>
             <FormItem>
-              {getFieldDecorator('unitGrams', {})(<InputNumber step={1} precision={0} placeholder="gram" />)}
+              {getFieldDecorator('grams', {})(<InputNumber step={1} precision={0} placeholder="waga" />)}
             </FormItem>
           </Col>
         </FormItem>
