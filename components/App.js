@@ -14,7 +14,7 @@ class App extends Component {
     this.props.getProducts();
   }
   render() {
-    const data = this.props.table.map(x => (<h2>{x}</h2>));
+    const data = this.props.table.map(x => (<h2 key={x.key}>{x.name}</h2>));
     const data2 = this.props.products.map(x => (
       <h2>key: {x.key}, bigSpoon: {x.bigSpoon},
      glass: {x.glass}, grams: {x.grams}, name: {x.name},
