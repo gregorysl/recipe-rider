@@ -12,10 +12,10 @@ export function* getRecipes() {
 }
 export function* addRecipe(params) {
   try {
-    const data = yield call(api.addRecipe, params.recipe.value);
+    const data = yield call(api.addRecipe, params.recipe);
     yield put({ type: types.ADD_RECIPE_SUCCESS, data });
     yield put({ type: types.GET_RECIPE_REQUEST });
   } catch (error) {
-    yield put({ type: types.ADD_RECIPE_ERROR, data: error.response.data });
+    yield put({ type: types.ADD_RECIPE_ERROR, data: error });
   }
 }

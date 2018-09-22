@@ -6,7 +6,7 @@ import { Select } from 'antd';
 const { Option } = Select;
 
 const MeasurementUnit = props => (
-  <Select defaultValue={props.defaultValue} >
+  <Select onChange={props.onChange} value={props.defaultValue} >
     <Option value="grams">Gramy</Option>
     <Option value="glass">Szklanka</Option>
     <Option value="bigSpoon">Duża łyżeczka</Option>
@@ -18,7 +18,8 @@ const MeasurementUnit = props => (
 //   defaultValue: ''
 // };
 MeasurementUnit.propTypes = {
-  defaultValue: PropTypes.string.isRequired
+  defaultValue: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired
 };
 
 export default MeasurementUnit;
