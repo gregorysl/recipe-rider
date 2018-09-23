@@ -4,12 +4,13 @@ let currentRecipeKey = 2;
 const products = [{
   key: 1,
   bigSpoon: 123,
-  glass: 123,
-  grams: 123,
+  glass: 234,
+  grams: 345,
   name: 'Jajka',
-  measurement: 'grams',
-  smallSpoon: 123,
-  unitPrice: 123
+  measurement: 'glass',
+  smallSpoon: 456,
+  unitPrice: 567,
+  active: true
 },
 {
   key: 2,
@@ -19,7 +20,8 @@ const products = [{
   name: 'Mąka',
   measurement: 'grams',
   smallSpoon: 123,
-  unitPrice: 123
+  unitPrice: 123,
+  active: false
 }];
 
 export function addRecipe(recipe) {

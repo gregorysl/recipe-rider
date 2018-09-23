@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Input, Form, Button, InputNumber, Col } from 'antd';
+import { Input, Form, Button, InputNumber, Col, Switch } from 'antd';
 import { addProduct } from '../actions/actions';
 import MeasurementUnit from './MeasurementUnit';
 
@@ -25,17 +25,25 @@ class AddProduct extends Component {
 
   render() {
     const {
-      getFieldDecorator, getFieldsError
-    } = this.props.form;
+      product, form: { getFieldDecorator, getFieldsError }
+    } = this.props;
+    const title = product ? 'Edytuj' : 'Dodaj';
     return (
       <Form layout="vertical" onSubmit={this.handleSubmit}>
-        <h1>Nowy produkt</h1>
+        <h1>{title} produkt</h1>
         <h3>Nazwa</h3>
         <FormItem>
           {getFieldDecorator('name', {
             rules: [{ required: true, message: 'Podaj nazwę produktu' }]
           })(<Input name="name" />)}
         </FormItem>
+        {product &&
+          (
+          <React.Fragment><h3>Aktywny</h3>
+            <FormItem>
+              {getFieldDecorator('active', { valuePropName: 'checked' })(<Switch />)}
+            </FormItem>
+          </React.Fragment>)}
         <h3>Domyślna miara</h3>
         <FormItem>
           { /* eslint-disable react/jsx-indent */
@@ -85,9 +93,10 @@ const mapDispatchToProps = dispatch => ({
     dispatch(addProduct(data));
   }
 });
-// AddProduct.defaultProps = { product: {} };
+AddProduct.defaultProps = { product: {} };
 
 AddProduct.propTypes = {
+  product: PropTypes.shape(),
   addRecipe: PropTypes.func.isRequired,
   form: PropTypes.shape({
     getFieldsValue: PropTypes.func,
