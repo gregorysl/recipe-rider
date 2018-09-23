@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Layout } from 'antd';
+import { Layout, Button } from 'antd';
 import PropTypes from 'prop-types';
 import AddRecipe from './AddRecipe';
 import AddProduct from './AddProduct';
@@ -9,9 +9,20 @@ import * as actions from '../actions/actions';
 const { Header, Content } = Layout;
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      product: null
+    };
+    this.handleClick = this.handleClick.bind(this);
+  }
   componentDidMount() {
     this.props.getRecipes();
     this.props.getProducts();
+  }
+  handleClick(product) {
+    this.setState({ product });
   }
   render() {
     const data = this.props.table.map(x => (<h2 key={x.key}>{x.name}</h2>));
@@ -19,6 +30,7 @@ class App extends Component {
       <h2>key: {x.key}, bigSpoon: {x.bigSpoon},
      glass: {x.glass}, grams: {x.grams}, name: {x.name},
      measurement: {x.measurement}, smallSpoon: {x.smallSpoon}, unitPrice: {x.unitPrice}
+        <Button onClick={() => this.handleClick(x)}>Edit</Button>
       </h2>));
     return (
       <Layout className="layout">
@@ -34,7 +46,7 @@ class App extends Component {
             <AddRecipe />
           </div>
           <br />
-          <div> <AddProduct /></div>
+          <div> <AddProduct product={this.state.product} /></div>
         </Content>
       </Layout>
     );
