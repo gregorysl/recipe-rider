@@ -27,11 +27,10 @@ class App extends Component {
   render() {
     const data = this.props.table.map(x => (<h2 key={x.key}>{x.name}</h2>));
     const data2 = this.props.products.map(x => (
-      <h2>key: {x.key}, bigSpoon: {x.bigSpoon},
-     glass: {x.glass}, grams: {x.grams}, name: {x.name},
-     measurement: {x.measurement}, smallSpoon: {x.smallSpoon}, unitPrice: {x.unitPrice}
+      <h3>
+        {Object.entries(x).map(z => (`${z[0]}:${z[1]}, `))}
         <Button onClick={() => this.handleClick(x)}>Edit</Button>
-      </h2>));
+      </h3>));
     return (
       <Layout className="layout">
         <Header>
