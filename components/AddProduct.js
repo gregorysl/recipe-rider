@@ -27,15 +27,14 @@ class AddProduct extends Component {
     const {
       getFieldDecorator, getFieldsError
     } = this.props.form;
-
     return (
       <Form layout="vertical" onSubmit={this.handleSubmit}>
         <h1>Nowy produkt</h1>
         <h3>Nazwa</h3>
         <FormItem>
-          {getFieldDecorator('key', {
+          {getFieldDecorator('name', {
             rules: [{ required: true, message: 'Podaj nazwę produktu' }]
-          })(<Input name="productName" />)}
+          })(<Input name="name" />)}
         </FormItem>
         <h3>Domyślna miara</h3>
         <FormItem>
@@ -86,7 +85,7 @@ const mapDispatchToProps = dispatch => ({
     dispatch(addProduct(data));
   }
 });
-// AddProduct.defaultProps = { note: '' };
+// AddProduct.defaultProps = { product: {} };
 
 AddProduct.propTypes = {
   addRecipe: PropTypes.func.isRequired,
@@ -107,6 +106,16 @@ AddProduct.propTypes = {
   }).isRequired
 };
 
-const WrappedAddProductForm = Form.create()(AddProduct);
+const WrappedAddProductForm = Form.create({
+  mapPropsToFields(props) {
+    const formProduct = {};
+    if (props.product != null) {
+      Object.entries(props.product).forEach(([k, v]) => {
+        formProduct[k] = Form.createFormField({ value: v });
+      });
+    }
+    return formProduct;
+  }
+})(AddProduct);
 
 export default connect(null, mapDispatchToProps)(WrappedAddProductForm);
