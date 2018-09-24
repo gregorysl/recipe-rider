@@ -35,9 +35,15 @@ export function getRecipes() {
 }
 
 export function addProduct(product) {
-  product.key = currentProductKey;
-  currentProductKey += 1;
-  products.push(product);
+  if (!product.key) {
+    product.key = currentProductKey;
+    currentProductKey += 1;
+    products.push(product);
+  } else {
+    const item = products.filter(x => x.key === product.key)[0];
+    const index = products.indexOf(item);
+    products[index] = product;
+  }
   return true;
 }
 export function getProducts() {
