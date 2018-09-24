@@ -9,8 +9,8 @@ export const getRecipes = () => ({
   type: types.GET_RECIPE_REQUEST
 });
 
-export const addProduct = product => ({
-  type: types.ADD_PRODUCT_REQUEST,
+export const saveProduct = product => ({
+  type: types.SAVE_PRODUCT_REQUEST,
   product
 });
 

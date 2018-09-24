@@ -13,9 +13,9 @@ export function* getProducts() {
 export function* addProduct(params) {
   try {
     const data = yield call(api.addProduct, params.product);
-    yield put({ type: types.ADD_PRODUCT_SUCCESS, data });
+    yield put({ type: types.SAVE_PRODUCT_SUCCESS, data });
     yield put({ type: types.GET_PRODUCT_REQUEST });
   } catch (error) {
-    yield put({ type: types.ADD_PRODUCT_ERROR, data: error.response.data });
+    yield put({ type: types.SAVE_PRODUCT_ERROR, data: error.response.data });
   }
 }

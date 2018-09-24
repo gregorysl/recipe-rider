@@ -11,7 +11,7 @@ export function* watchGetRecipes() {
 }
 
 export function* watchAddProduct() {
-  yield takeLatest(types.ADD_PRODUCT_REQUEST, productSagas.addProduct);
+  yield takeLatest(types.SAVE_PRODUCT_REQUEST, productSagas.addProduct);
 }
 export function* watchGetProducts() {
   yield takeLatest(types.GET_PRODUCT_REQUEST, productSagas.getProducts);
