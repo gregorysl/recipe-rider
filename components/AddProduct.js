@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Input, Form, Button, InputNumber, Col, Switch } from 'antd';
-import { addProduct } from '../actions/actions';
+import { saveProduct } from '../actions/actions';
 import MeasurementUnit from './MeasurementUnit';
 
 const FormItem = Form.Item;
@@ -18,7 +18,7 @@ class AddProduct extends Component {
       if (!err) {
         console.log('Received values of form: ', values);
 
-        this.props.addRecipe(values);
+        this.props.saveProduct(values);
       }
     });
   }
@@ -31,6 +31,9 @@ class AddProduct extends Component {
     return (
       <Form layout="vertical" onSubmit={this.handleSubmit}>
         <h1>{title} produkt</h1>
+        <FormItem>
+          {getFieldDecorator('key', {})(<Input name="key" />)}
+        </FormItem>
         <h3>Nazwa</h3>
         <FormItem>
           {getFieldDecorator('name', {
@@ -81,7 +84,7 @@ class AddProduct extends Component {
           {getFieldDecorator('smallSpoon', {})(<InputNumber step={1} precision={0} placeholder="łyżeczka" />)}
         </FormItem>
         <FormItem>
-          <Button type="primary" htmlType="submit" disabled={hasErrors(getFieldsError())} >Dodaj</Button>
+          <Button type="primary" htmlType="submit" disabled={hasErrors(getFieldsError())} >Zapisz</Button>
         </FormItem>
       </Form>
     );
@@ -89,15 +92,15 @@ class AddProduct extends Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-  addRecipe: (data) => {
-    dispatch(addProduct(data));
+  saveProduct: (data) => {
+    dispatch(saveProduct(data));
   }
 });
 AddProduct.defaultProps = { product: {} };
 
 AddProduct.propTypes = {
   product: PropTypes.shape(),
-  addRecipe: PropTypes.func.isRequired,
+  saveProduct: PropTypes.func.isRequired,
   form: PropTypes.shape({
     getFieldsValue: PropTypes.func,
     getFieldValue: PropTypes.func,
