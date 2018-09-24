@@ -10,9 +10,9 @@ export function* getProducts() {
     yield put({ type: types.GET_PRODUCT_ERROR, data: error.response.data });
   }
 }
-export function* addProduct(params) {
+export function* saveProduct(params) {
   try {
-    const data = yield call(api.addProduct, params.product);
+    const data = yield call(api.saveProduct, params.product);
     yield put({ type: types.SAVE_PRODUCT_SUCCESS, data });
     yield put({ type: types.GET_PRODUCT_REQUEST });
   } catch (error) {

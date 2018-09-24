@@ -34,7 +34,7 @@ export function getRecipes() {
   return recipes;
 }
 
-export function addProduct(product) {
+export function saveProduct(product) {
   if (!product.key) {
     product.key = currentProductKey;
     currentProductKey += 1;

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Layout, Button } from 'antd';
 import PropTypes from 'prop-types';
 import AddRecipe from './AddRecipe';
-import AddProduct from './AddProduct';
+import Product from './Product';
 import * as actions from '../actions/actions';
 
 const { Header, Content } = Layout;
@@ -45,7 +45,7 @@ class App extends Component {
             <AddRecipe />
           </div>
           <br />
-          <div> <AddProduct product={this.state.product} /></div>
+          <div> <Product product={this.state.product} /></div>
         </Content>
       </Layout>
     );

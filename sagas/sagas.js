@@ -4,7 +4,7 @@ import * as watch from './watcher';
 const sagas = [
   fork(watch.watchAddRecipe),
   fork(watch.watchGetRecipes),
-  fork(watch.watchAddProduct),
+  fork(watch.watchSaveProduct),
   fork(watch.watchGetProducts)
 ];
 

@@ -11,7 +11,7 @@ function hasErrors(fieldsError) {
   return Object.keys(fieldsError).some(field => fieldsError[field]);
 }
 
-class AddProduct extends Component {
+class Product extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
@@ -96,9 +96,9 @@ const mapDispatchToProps = dispatch => ({
     dispatch(saveProduct(data));
   }
 });
-AddProduct.defaultProps = { product: {} };
+Product.defaultProps = { product: {} };
 
-AddProduct.propTypes = {
+Product.propTypes = {
   product: PropTypes.shape(),
   saveProduct: PropTypes.func.isRequired,
   form: PropTypes.shape({
@@ -128,6 +128,6 @@ const WrappedAddProductForm = Form.create({
     }
     return formProduct;
   }
-})(AddProduct);
+})(Product);
 
 export default connect(null, mapDispatchToProps)(WrappedAddProductForm);
