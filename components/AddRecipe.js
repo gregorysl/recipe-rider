@@ -96,16 +96,17 @@ class AddRecipe extends Component {
       </FormItem>
     ));
     return (
-      <React.Fragment>
+      <div style={{ width: '50%' }}>
+        <h1>Dodaj przepis</h1>
         <Form onSubmit={this.handleSubmit}>
           <FormItem {...formItemLayout}>
             {getFieldDecorator('title', {
             rules: [{ required: true, message: 'Please input your username!' }]
-          })(<Input style={{ width: '60%' }} placeholder="Note" type="text" />)}
+          })(<Input placeholder="Note" type="text" />)}
           </FormItem>
           {formItems}
           <FormItem {...formItemLayout}>
-            <Button type="dashed" onClick={this.add} style={{ width: '60%' }}>
+            <Button type="dashed" onClick={this.add}>
               <Icon type="plus" /> Dodaj Składnik
             </Button>
           </FormItem>
@@ -113,7 +114,7 @@ class AddRecipe extends Component {
             <Button type="primary" htmlType="submit">Submit</Button>
           </FormItem>
         </Form>
-      </React.Fragment>
+      </div>
     );
   }
 }

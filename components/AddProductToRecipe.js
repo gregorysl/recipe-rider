@@ -76,14 +76,14 @@ class AddProductToRecipe extends Component {
             optionFilterProp="name"
             onChange={this.handleProductChange}
             filterOption={(input, option) => option.props.children.indexOf(input) >= 0}
-            style={{ width: 200, marginRight: '3%' }}
+            style={{ width: '40%', marginRight: '3%' }}
           >
             {data}
           </Select >
           <MeasurementUnit
             defaultValue={state.measurement}
             onChange={this.handleMeasurementChange}
-            style={{ width: 200 }}
+            style={{ width: '34%' }}
           />
         </span>
       );
