@@ -15,11 +15,13 @@ const MeasurementUnit = props => (
 );
 
 MeasurementUnit.defaultProps = {
-  style: {}
+  style: {},
+  defaultValue: '',
+  onChange: null
 };
 MeasurementUnit.propTypes = {
-  defaultValue: PropTypes.string.isRequired,
-  onChange: PropTypes.func.isRequired,
+  defaultValue: PropTypes.string,
+  onChange: PropTypes.func,
   style: PropTypes.shape()
 };
 

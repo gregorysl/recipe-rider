@@ -81,8 +81,7 @@ class AddRecipe extends Component {
         required={false}
         key={k}
       >
-        {getFieldDecorator(`names[${k}]`, {
-            initialValue: { name: '', product: '' },
+        {getFieldDecorator(`products[${k}]`, {
             rules: [{ validator: this.checkProduct }]
         })(<AddProductToRecipe products={this.props.products} />)}
         {keys.length > 1 ? (
@@ -100,7 +99,7 @@ class AddRecipe extends Component {
         <h1>Dodaj przepis</h1>
         <Form onSubmit={this.handleSubmit}>
           <FormItem {...formItemLayout}>
-            {getFieldDecorator('title', {
+            {getFieldDecorator('name', {
             rules: [{ required: true, message: 'Please input your username!' }]
           })(<Input placeholder="Note" type="text" />)}
           </FormItem>

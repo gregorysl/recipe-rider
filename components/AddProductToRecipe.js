@@ -11,7 +11,7 @@ class AddProductToRecipe extends Component {
 
     const value = props.value || {};
     this.state = {
-      name: value.name,
+      amount: value.amount,
       product: value.product
     };
     this.handleNameChange = this.handleNameChange.bind(this);
@@ -28,9 +28,9 @@ class AddProductToRecipe extends Component {
 
     handleNameChange = (e) => {
       if (!('value' in this.props)) {
-        this.setState({ name: e.target.value });
+        this.setState({ amount: e.target.value });
       }
-      this.triggerChange({ name: e.target.value });
+      this.triggerChange({ amount: e.target.value });
     }
 
     handleProductChange = (product) => {
@@ -63,12 +63,6 @@ class AddProductToRecipe extends Component {
       const data = this.props.products.map(d => <Option key={d.key}>{d.name}</Option>);
       return (
         <span>
-          <Input
-            type="text"
-            value={state.name}
-            onChange={this.handleNameChange}
-            style={{ width: '20%', marginRight: '3%' }}
-          />
           <Select
             showSearch
             value={state.product}
@@ -76,28 +70,34 @@ class AddProductToRecipe extends Component {
             optionFilterProp="name"
             onChange={this.handleProductChange}
             filterOption={(input, option) => option.props.children.indexOf(input) >= 0}
-            style={{ width: '40%', marginRight: '3%' }}
+            style={{ width: '40%', marginRight: '2%' }}
           >
             {data}
           </Select >
+          <Input
+            type="text"
+            value={state.amount}
+            onChange={this.handleNameChange}
+            style={{ width: '20%', marginRight: '2%' }}
+          />
           <MeasurementUnit
             defaultValue={state.measurement}
             onChange={this.handleMeasurementChange}
-            style={{ width: '34%' }}
+            style={{ width: '30%', marginRight: '1%' }}
           />
         </span>
       );
     }
 }
-AddProductToRecipe.defaultProps = { onChange: null };
+AddProductToRecipe.defaultProps = { onChange: null, value: {} };
 
 AddProductToRecipe.propTypes = {
   products: PropTypes.arrayOf(PropTypes.object).isRequired,
   onChange: PropTypes.func,
   value: PropTypes.shape({
-    name: PropTypes.string,
+    amount: PropTypes.string,
     product: PropTypes.string
-  }).isRequired
+  })
 };
 
 export default (AddProductToRecipe);
