@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Input, Form, Button, InputNumber, Col, Switch } from 'antd';
+import { Input, Form, Button, InputNumber, Col, Switch, Row } from 'antd';
 import { saveProduct } from '../actions/actions';
 import MeasurementUnit from './MeasurementUnit';
 
@@ -30,32 +30,33 @@ class Product extends Component {
     const title = product ? 'Edytuj' : 'Dodaj';
     getFieldDecorator('key');
     return (
-      <Form layout="vertical" onSubmit={this.handleSubmit}>
+      <Form
+        className="ant-advanced-search-form"
+        onSubmit={this.handleSubmit}
+      >
         <h1>{title} produkt</h1>
-        <h3>Nazwa</h3>
-        <FormItem>
-          {getFieldDecorator('name', {
-            rules: [{ required: true, message: 'Podaj nazwę produktu' }]
-          })(<Input name="name" />)}
-        </FormItem>
-        {product &&
-          (
-          <React.Fragment><h3>Aktywny</h3>
-            <FormItem>
-              {getFieldDecorator('active', { valuePropName: 'checked' })(<Switch />)}
+        <Row gutter={24}>
+          <Col span={8}>
+            <FormItem label="Nazwa">
+              {getFieldDecorator('name', { rules: [{ required: true, message: 'Podaj nazwę produktu' }] })(<Input name="name" />)}
             </FormItem>
-          </React.Fragment>)}
-        <h3>Domyślna miara</h3>
-        <FormItem>
-          { /* eslint-disable react/jsx-indent */
-            getFieldDecorator('measurement', { initialValue: 'grams', valuePropName: 'defaultValue' })(<MeasurementUnit />)
+          </Col>
+          <Col span={8}>
+            <FormItem label="Domyślna miara">
+              { /* eslint-disable react/jsx-indent */
+            getFieldDecorator('measurement', {
+              initialValue: 'grams',
+              valuePropName: 'defaultValue',
+              rules: [{ required: true, message: 'Podaj domyślną miarę' }]
+            })(<MeasurementUnit />)
           /* eslint-enable */}
-        </FormItem>
-        <h3>Cena Jednostkowa</h3>
-        <FormItem>
+            </FormItem>
+          </Col>
+        </Row>
+        <Row gutter={24}>
           <Col span={2}>
-            <FormItem>
-              {getFieldDecorator('unitPrice', {})(<InputNumber step={0.01} precision={2} placeholder="zł" />)}
+            <FormItem label="Cena Jednostkowa">
+              {getFieldDecorator('unitPrice', { rules: [{ required: true, message: 'Podaj wartość dla miary domyślnej' }] })(<InputNumber step={0.01} precision={2} placeholder="zł" />)}
             </FormItem>
           </Col>
           <Col span={2}>
@@ -65,10 +66,19 @@ class Product extends Component {
           </Col>
           <Col span={11}>
             <FormItem>
-              {getFieldDecorator('grams', {})(<InputNumber step={1} precision={0} placeholder="waga" />)}
+              {getFieldDecorator('grams', { rules: [{ required: true, message: 'Podaj wagę produktu' }] })(<InputNumber step={1} precision={0} placeholder="waga" />)}
             </FormItem>
           </Col>
-        </FormItem>
+          {product &&
+          <Col span={8}>
+            <FormItem label="Aktywny">
+              {getFieldDecorator('active', { valuePropName: 'checked' })(<Switch />)}
+            </FormItem>
+          </Col>}
+        </Row>
+
+        <h3>Cena Jednostkowa</h3>
+        <FormItem />
         <h3>Waga pełnej szklanki</h3>
         <FormItem>
           {getFieldDecorator('glass', {})(<InputNumber step={1} precision={0} placeholder="szklanka" />)}
