@@ -10,7 +10,7 @@ let uuid = 0;
 class AddRecipe extends Component {
   constructor(props) {
     super(props);
-
+    this.state = { productKeys: [] };
     this.remove = this.remove.bind(this);
     this.add = this.add.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -21,24 +21,22 @@ class AddRecipe extends Component {
   }
 
   remove(k) {
-    const { form } = this.props;
-    const keys = form.getFieldValue('keys');
-    if (keys.length === 1) {
+    const { productKeys } = this.state;
+    if (productKeys.length === 1) {
       return;
     }
-    form.setFieldsValue({
-      keys: keys.filter(key => key !== k)
+    this.setState({
+      productKeys: productKeys.filter(key => key !== k)
     });
   }
 
   add() {
-    const { form } = this.props;
-    const keys = form.getFieldValue('keys');
-    const nextKeys = keys.concat(uuid);
+    const { productKeys } = this.state;
+    const nextKeys = productKeys.concat(uuid);
     // eslint-disable-next-line
     uuid++;
-    form.setFieldsValue({
-      keys: nextKeys
+    this.setState({
+      productKeys: nextKeys
     });
   }
 
@@ -62,7 +60,7 @@ class AddRecipe extends Component {
   }
 
   render() {
-    const { getFieldDecorator, getFieldValue } = this.props.form;
+    const { getFieldDecorator } = this.props.form;
     const formItemLayout = {
       labelCol: {
         xs: { span: 24 },
@@ -73,9 +71,8 @@ class AddRecipe extends Component {
         sm: { span: 20 }
       }
     };
-    getFieldDecorator('keys', { initialValue: [] });
-    const keys = getFieldValue('keys');
-    const formItems = keys.map(k => (
+    const { productKeys } = this.state;
+    const formItems = productKeys.map(k => (
       <FormItem
         {...(formItemLayout)}
         required={false}
@@ -84,11 +81,11 @@ class AddRecipe extends Component {
         {getFieldDecorator(`products[${k}]`, {
             rules: [{ validator: this.checkProduct }]
         })(<AddProductToRecipe products={this.props.products} />)}
-        {keys.length > 1 ? (
+        {productKeys.length > 1 ? (
           <Icon
             className="dynamic-delete-button"
             type="minus-circle-o"
-            disabled={keys.length === 1}
+            disabled={productKeys.length === 1}
             onClick={() => this.remove(k)}
           />
         ) : null}
