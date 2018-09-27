@@ -28,12 +28,10 @@ class Product extends Component {
       product, form: { getFieldDecorator, getFieldsError }
     } = this.props;
     const title = product ? 'Edytuj' : 'Dodaj';
+    getFieldDecorator('key');
     return (
       <Form layout="vertical" onSubmit={this.handleSubmit}>
         <h1>{title} produkt</h1>
-        <FormItem>
-          {getFieldDecorator('key', {})(<Input name="key" />)}
-        </FormItem>
         <h3>Nazwa</h3>
         <FormItem>
           {getFieldDecorator('name', {
