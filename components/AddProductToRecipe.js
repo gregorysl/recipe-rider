@@ -75,7 +75,8 @@ class AddProductToRecipe extends Component {
             {data}
           </Select >
           <Input
-            type="text"
+            type="number"
+            placeholder="Wartość"
             value={state.amount}
             onChange={this.handleNameChange}
             style={{ width: '20%', marginRight: '2%' }}
