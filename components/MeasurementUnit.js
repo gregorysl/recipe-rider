@@ -1,22 +1,29 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Select } from 'antd';
-
+import { measurementTypes } from '../api/api';
 
 const { Option } = Select;
 
+const options = measurementTypes.map(x => (
+  <Option key={x.key} value={x.key}>
+    {x.name}
+  </Option>
+));
+
 const MeasurementUnit = props => (
-  <Select style={props.style} onChange={props.onChange} value={props.defaultValue} >
-    <Option value="grams">Gramy</Option>
-    <Option value="glass">Szklanka</Option>
-    <Option value="bigSpoon">Duża łyżeczka</Option>
-    <Option value="smallSpoon">Mała łyżeczka</Option>
+  <Select
+    style={props.style}
+    onChange={props.onChange}
+    value={props.defaultValue}
+  >
+    {options}
   </Select>
 );
 
 MeasurementUnit.defaultProps = {
   style: {},
-  defaultValue: '',
+  defaultValue: 'grams',
   onChange: null
 };
 MeasurementUnit.propTypes = {
