@@ -78,7 +78,11 @@ class App extends Component {
         <Content style={{ padding: '0 50px' }}>
           <div style={{ background: '#fff', padding: 5, minHeight: 280 }}>
             <h1>Products</h1>
-            <Table columns={columns} dataSource={this.props.products} />
+            <Table
+              columns={columns}
+              dataSource={this.props.products}
+              pagination={false}
+            />
             <h1>Recipes</h1>
             {data}
             <AddRecipe />
@@ -96,15 +100,16 @@ class App extends Component {
 App.propTypes = {
   /* eslint-disable indent */
   products: PropTypes.arrayOf(PropTypes.shape({
-      active: PropTypes.bool.isRequired,
-      bigSpoon: PropTypes.number.isRequired,
-      glass: PropTypes.number.isRequired,
-      grams: PropTypes.number.isRequired,
       key: PropTypes.number.isRequired,
-      measurement: PropTypes.string.isRequired,
       name: PropTypes.string.isRequired,
-      smallSpoon: PropTypes.number.isRequired,
-      unitPrice: PropTypes.number.isRequired
+      measurement: PropTypes.string.isRequired,
+      unitPrice: PropTypes.number.isRequired,
+      active: PropTypes.bool,
+      bigSpoon: PropTypes.number,
+      smallSpoon: PropTypes.number,
+      glass: PropTypes.number,
+      piece: PropTypes.number,
+      grams: PropTypes.number
     }).isRequired).isRequired,
   table: PropTypes.arrayOf(PropTypes.shape({
       key: PropTypes.number.isRequired,
