@@ -4,9 +4,11 @@ import PropTypes from 'prop-types';
 import { Input, Form, Button, InputNumber, Col, Switch, Row } from 'antd';
 import { saveProduct } from '../actions/actions';
 import MeasurementUnit from './MeasurementUnit';
+import { measurementTypes } from '../api/api';
 
 const FormItem = Form.Item;
 
+const defaults = 'grams';
 function hasErrors(fieldsError) {
   return Object.keys(fieldsError).some(field => fieldsError[field]);
 }
@@ -21,78 +23,104 @@ class Product extends Component {
         this.props.saveProduct(values);
       }
     });
-  }
+  };
 
   render() {
     const {
-      product, form: { getFieldDecorator, getFieldsError }
+      product,
+      form: { getFieldDecorator, getFieldsError, getFieldValue }
     } = this.props;
     const title = product ? 'Edytuj' : 'Dodaj';
+    const gfv = getFieldValue('measurement');
+    const selectedValue = gfv || defaults;
+    debugger;
+    const products = measurementTypes.filter(x => x.key === selectedValue)[0];
+    const mains = products.main ? products.key : products.parent;
+    const main = measurementTypes.filter(x => x.key === mains).map(x => (
+      <FormItem key={x.key} label={x.name}>
+        {/* eslint-disable max-len */}
+        {getFieldDecorator(x.key, {})(<InputNumber step={1} precision={0} placeholder={x.name} />)}
+        {/* eslint-enable */}
+      </FormItem>
+    ));
+    const additional = measurementTypes
+      .filter(x => x.parent === mains)
+      .map(x => (
+        <FormItem key={x.key} label={x.name}>
+          {/* eslint-disable max-len */}
+          {getFieldDecorator(x.key, {})(<InputNumber step={1} precision={0} placeholder={x.name} />)}
+          {/* eslint-enable */}
+        </FormItem>
+      ));
     getFieldDecorator('key');
     return (
-      <Form
-        className="ant-advanced-search-form"
-        onSubmit={this.handleSubmit}
-      >
+      <Form className="ant-advanced-search-form" onSubmit={this.handleSubmit}>
         <h1>{title} produkt</h1>
         <Row gutter={24}>
           <Col span={8}>
             <FormItem label="Nazwa">
-              {getFieldDecorator('name', { rules: [{ required: true, message: 'Podaj nazwę produktu' }] })(<Input name="name" />)}
+              {getFieldDecorator('name', {
+                rules: [{ required: true, message: 'Podaj nazwę produktu' }]
+              })(<Input name="name" />)}
             </FormItem>
           </Col>
           <Col span={8}>
             <FormItem label="Domyślna miara">
-              { /* eslint-disable react/jsx-indent */
-            getFieldDecorator('measurement', {
-              initialValue: 'grams',
-              valuePropName: 'defaultValue',
-              rules: [{ required: true, message: 'Podaj domyślną miarę' }]
-            })(<MeasurementUnit />)
-          /* eslint-enable */}
+              {/* eslint-disable react/jsx-indent */
+              getFieldDecorator('measurement', {
+                initialValue: defaults,
+                valuePropName: 'defaultValue',
+                rules: [{ required: true, message: 'Podaj domyślną miarę' }]
+              })(<MeasurementUnit />)
+              /* eslint-enable */
+              }
             </FormItem>
           </Col>
         </Row>
         <Row gutter={24}>
           <Col span={2}>
             <FormItem label="Cena Jednostkowa">
-              {getFieldDecorator('unitPrice', { rules: [{ required: true, message: 'Podaj wartość dla miary domyślnej' }] })(<InputNumber step={0.01} precision={2} placeholder="zł" />)}
+              {getFieldDecorator('unitPrice', {
+                rules: [
+                  {
+                    required: true,
+                    message: 'Podaj wartość dla miary domyślnej'
+                  }
+                ]
+              })(<InputNumber step={0.01} precision={2} placeholder="zł" />)}
             </FormItem>
           </Col>
           <Col span={2}>
-            <span style={{ display: 'inline-block', width: '100%', textAlign: 'center' }}>
-          zł za
+            <span
+              style={{
+                display: 'inline-block',
+                width: '100%',
+                textAlign: 'center'
+              }}
+            >
+              zł za
             </span>
           </Col>
-          <Col span={11}>
-            <FormItem>
-              {getFieldDecorator('grams', { rules: [{ required: true, message: 'Podaj wagę produktu' }] })(<InputNumber step={1} precision={0} placeholder="waga" />)}
-            </FormItem>
-          </Col>
-          {product &&
-          <Col span={8}>
-            <FormItem label="Aktywny">
-              {getFieldDecorator('active', { valuePropName: 'checked' })(<Switch />)}
-            </FormItem>
-          </Col>}
+          <Col span={11}>{main}</Col>
+          {product && (
+            <Col span={8}>
+              <FormItem label="Aktywny">
+                {getFieldDecorator('active', { valuePropName: 'checked' })(<Switch />)}
+              </FormItem>
+            </Col>
+          )}
         </Row>
 
-        <h3>Cena Jednostkowa</h3>
-        <FormItem />
-        <h3>Waga pełnej szklanki</h3>
+        {additional}
+
         <FormItem>
-          {getFieldDecorator('glass', {})(<InputNumber step={1} precision={0} placeholder="szklanka" />)}
-        </FormItem>
-        <h3>Waga pełnej łyżki</h3>
-        <FormItem>
-          {getFieldDecorator('bigSpoon', {})(<InputNumber step={1} precision={0} placeholder="łyżka" />)}
-        </FormItem>
-        <h3>Waga pełnej łyżeczki</h3>
-        <FormItem>
-          {getFieldDecorator('smallSpoon', {})(<InputNumber step={1} precision={0} placeholder="łyżeczka" />)}
-        </FormItem>
-        <FormItem>
-          <Button type="primary" htmlType="submit" disabled={hasErrors(getFieldsError())} >Zapisz</Button>
+          <Button
+            type="primary"
+            htmlType="submit"
+            disabled={hasErrors(getFieldsError())}
+          >
+            Zapisz
+          </Button>
         </FormItem>
       </Form>
     );
@@ -138,4 +166,7 @@ const WrappedAddProductForm = Form.create({
   }
 })(Product);
 
-export default connect(null, mapDispatchToProps)(WrappedAddProductForm);
+export default connect(
+  null,
+  mapDispatchToProps
+)(WrappedAddProductForm);
