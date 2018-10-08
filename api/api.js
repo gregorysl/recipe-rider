@@ -20,15 +20,37 @@ const products = [
     active: true
   },
   {
-    key: 2,
-    bigSpoon: 123,
-    glass: 123,
-    grams: 123,
-    name: 'Mąka',
     measurement: 'grams',
-    smallSpoon: 123,
-    unitPrice: 123,
-    active: false
+    grams: 1000,
+    key: 3,
+    name: 'Jabłka',
+    unitPrice: 2.49,
+    active: true
+  },
+  {
+    measurement: 'grams',
+    grams: 1000,
+    key: 4,
+    name: 'Cukier',
+    unitPrice: 2.19,
+    active: true
+  },
+  {
+    measurement: 'grams',
+    grams: 250,
+    key: 5,
+    name: 'Mascarpone',
+    unitPrice: 47.9,
+    active: true
+  },
+  {
+    measurement: 'grams',
+    grams: 15,
+    smallSpoon: 4,
+    key: 6,
+    name: 'Cynamon',
+    unitPrice: 0.99,
+    active: true
   }
 ];
 
@@ -45,6 +67,7 @@ export function getRecipes() {
 export function saveProduct(product) {
   if (!product.key) {
     product.key = currentProductKey;
+    product.active = true;
     currentProductKey += 1;
     products.push(product);
   } else {
