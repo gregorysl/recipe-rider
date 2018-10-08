@@ -33,7 +33,6 @@ class Product extends Component {
     const title = product ? 'Edytuj' : 'Dodaj';
     const gfv = getFieldValue('measurement');
     const selectedValue = gfv || defaults;
-    debugger;
     const products = measurementTypes.filter(x => x.key === selectedValue)[0];
     const mains = products.main ? products.key : products.parent;
     const main = measurementTypes.filter(x => x.key === mains).map(x => (
