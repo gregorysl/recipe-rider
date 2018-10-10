@@ -9,7 +9,7 @@ import store from './store';
 import App from './components/App';
 import MyHeader from './components/Header';
 import './styles/style.less';
-import Product from './components/Product';
+import ProductsPage from './components/ProductsPage';
 
 const { Content } = Layout;
 
@@ -20,10 +20,12 @@ const Item = (
       <Layout className="layout">
         <MyHeader />
         <Content style={{ padding: '0 50px' }}>
-          <Switch>
-            <Route path="/" exact component={App} />
-            <Route path="/products" component={Product} />
-          </Switch>
+          <div style={{ background: '#fff', padding: 5, minHeight: 280 }}>
+            <Switch>
+              <Route path="/" exact component={App} />
+              <Route path="/products" component={ProductsPage} />
+            </Switch>
+          </div>
         </Content>
       </Layout>
     </Provider>

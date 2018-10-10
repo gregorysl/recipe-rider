@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Button, Table } from 'antd';
 import PropTypes from 'prop-types';
 import AddRecipe from './AddRecipe';
 import Product from './Product';
@@ -17,70 +16,17 @@ class App extends Component {
   }
   componentDidMount() {
     this.props.getRecipes();
-    this.props.getProducts();
   }
   handleClick(product) {
     this.setState({ product });
   }
   render() {
-    const columns = [
-      {
-        title: 'Name',
-        dataIndex: 'name',
-        key: 'name'
-      },
-      {
-        title: 'Measurement',
-        dataIndex: 'measurement',
-        key: 'measurement'
-      },
-      {
-        title: 'Grams',
-        dataIndex: 'grams',
-        key: 'grams'
-      },
-      {
-        title: 'Unit Price',
-        dataIndex: 'unitPrice',
-        key: 'unitPrice'
-      },
-      {
-        title: 'Big Spoon',
-        dataIndex: 'bigSpoon',
-        key: 'bigSpoon'
-      },
-      {
-        title: 'Small Spoon',
-        dataIndex: 'smallSpoon',
-        key: 'smallSpoon'
-      },
-      {
-        title: 'Glass',
-        dataIndex: 'glass',
-        key: 'glass'
-      },
-      {
-        title: 'Action',
-        key: 'action',
-        render: (text, product) => (
-          <Button onClick={() => this.handleClick(product)}>Edit</Button>
-        )
-      }
-    ];
     const data = this.props.table.map(x => <h2 key={x.key}>{x.name}</h2>);
     return (
       <React.Fragment>
-        <div style={{ background: '#fff', padding: 5, minHeight: 280 }}>
-          <h1>Products</h1>
-          <Table
-            columns={columns}
-            dataSource={this.props.products}
-            pagination={false}
-          />
-          <h1>Recipes</h1>
-          {data}
-          <AddRecipe />
-        </div>
+        <h1>Recipes</h1>
+        {data}
+        <AddRecipe />
         <div>
           <Product product={this.state.product} />
         </div>
@@ -89,20 +35,8 @@ class App extends Component {
   }
 }
 
+/* eslint-disable indent */
 App.propTypes = {
-  /* eslint-disable indent */
-  products: PropTypes.arrayOf(PropTypes.shape({
-      key: PropTypes.number.isRequired,
-      name: PropTypes.string.isRequired,
-      measurement: PropTypes.string.isRequired,
-      unitPrice: PropTypes.number.isRequired,
-      active: PropTypes.bool,
-      bigSpoon: PropTypes.number,
-      smallSpoon: PropTypes.number,
-      glass: PropTypes.number,
-      piece: PropTypes.number,
-      grams: PropTypes.number
-    }).isRequired).isRequired,
   table: PropTypes.arrayOf(PropTypes.shape({
       key: PropTypes.number.isRequired,
       name: PropTypes.string.isRequired
@@ -112,13 +46,11 @@ App.propTypes = {
   /* eslint-enable */
 };
 const mapStateToProps = state => ({
-  table: state.table,
-  products: state.product
+  table: state.table
 });
 
 const mapDispatchToProps = dispatch => ({
-  getRecipes: () => dispatch(actions.getRecipes()),
-  getProducts: () => dispatch(actions.getProducts())
+  getRecipes: () => dispatch(actions.getRecipes())
 });
 
 export default connect(
