@@ -44,12 +44,21 @@ const products = [
     active: true
   },
   {
-    measurement: 'grams',
+    measurement: 'smallSpoon',
     grams: 15,
-    smallSpoon: 4,
+    smallSpoon: 5,
     key: 6,
     name: 'Cynamon',
     unitPrice: 0.99,
+    active: true
+  },
+  {
+    measurement: 'glass',
+    grams: 1000,
+    glass: 130,
+    key: 7,
+    name: 'Mąka',
+    unitPrice: 2.5,
     active: true
   }
 ];
