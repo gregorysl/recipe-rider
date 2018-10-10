@@ -23,11 +23,11 @@ const config = {
 
   context: resolve(__dirname, '.'),
 
-
   devServer: {
     hot: true,
     contentBase: resolve(__dirname, 'build'),
-    publicPath: '/'
+    publicPath: '/',
+    historyApiFallback: true
   },
 
   module: {
@@ -40,9 +40,7 @@ const config = {
       },
       {
         test: /\.js$/,
-        loaders: [
-          'babel-loader'
-        ],
+        loaders: ['babel-loader'],
         exclude: /node_modules/
       },
       {
@@ -61,15 +59,20 @@ const config = {
           ],
           publicPath: '../'
         })
-      }, {
+      },
+      {
         test: /\.less$/,
-        use: [{
-          loader: 'style-loader' // creates style nodes from JS strings
-        }, {
-          loader: 'css-loader' // translates CSS into CommonJS
-        }, {
-          loader: 'less-loader' // compiles Less to CSS
-        }]
+        use: [
+          {
+            loader: 'style-loader' // creates style nodes from JS strings
+          },
+          {
+            loader: 'css-loader' // translates CSS into CommonJS
+          },
+          {
+            loader: 'less-loader' // compiles Less to CSS
+          }
+        ]
       },
       {
         test: /\.(png|jpg|gif)$/,
