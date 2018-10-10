@@ -41,8 +41,7 @@ App.propTypes = {
       key: PropTypes.number.isRequired,
       name: PropTypes.string.isRequired
     }).isRequired).isRequired,
-  getRecipes: PropTypes.func.isRequired,
-  getProducts: PropTypes.func.isRequired
+  getRecipes: PropTypes.func.isRequired
   /* eslint-enable */
 };
 const mapStateToProps = state => ({
