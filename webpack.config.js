@@ -18,7 +18,7 @@ const config = {
   output: {
     filename: 'bundle.js',
     path: resolve(__dirname, 'dist'),
-    publicPath: ''
+    publicPath: '/'
   },
 
   context: resolve(__dirname, '.'),
