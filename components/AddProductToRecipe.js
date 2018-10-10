@@ -61,26 +61,22 @@ class AddProductToRecipe extends Component {
 
   render() {
     const { state } = this;
-    const asd = measurementTypes;
-    console.log(asd);
     const data = this.props.products.map(d => (
       <Option key={d.key}>{d.name}</Option>
     ));
     const selProd = this.props.products.filter(x => x.key === +state.product)[0];
     let value = '';
-    if (selProd) {
-      const selMeasurement = asd.filter(x => x.key === state.measurement)[0];
+    if (selProd && state.amount) {
+      const selMeasurement = measurementTypes.filter(x => x.key === state.measurement)[0];
       if (selMeasurement.main) {
-        if (selMeasurement.key === 'grams') {
-          value = (state.amount * selProd.unitPrice) / selProd.grams;
-        } else if (selMeasurement.key === 'piece') {
-          value = (state.amount * selProd.unitPrice) / selProd.piece;
-        } else {
-          console.log('ooops... no value');
-        }
+        value = (state.amount * selProd.unitPrice) / selProd[state.measurement];
+      } else {
+        const mainMeasurement = measurementTypes.filter(x => x.key === selMeasurement.parent)[0];
+        value =
+          (state.amount * selProd[state.measurement] * selProd.unitPrice) /
+          selProd[mainMeasurement.key];
       }
     }
-    // debugger;
     return (
       <span>
         <Select
