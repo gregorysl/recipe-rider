@@ -4,9 +4,10 @@ import { Layout, Button, Table } from 'antd';
 import PropTypes from 'prop-types';
 import AddRecipe from './AddRecipe';
 import Product from './Product';
+import MyHeader from './Header';
 import * as actions from '../actions/actions';
 
-const { Header, Content } = Layout;
+const { Content } = Layout;
 
 class App extends Component {
   constructor(props) {
@@ -72,9 +73,7 @@ class App extends Component {
     const data = this.props.table.map(x => <h2 key={x.key}>{x.name}</h2>);
     return (
       <Layout className="layout">
-        <Header>
-          <div className="logo" />
-        </Header>
+        <MyHeader />
         <Content style={{ padding: '0 50px' }}>
           <div style={{ background: '#fff', padding: 5, minHeight: 280 }}>
             <h1>Products</h1>
