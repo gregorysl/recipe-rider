@@ -1,10 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Layout, Menu } from 'antd';
+import { Menu } from 'antd';
 
 const { Item } = Menu;
 
-const { Header } = Layout;
 const MyHeader = () => (
   <Menu mode="horizontal">
     <Item key="home">

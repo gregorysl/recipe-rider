@@ -1,13 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Layout, Button, Table } from 'antd';
+import { Button, Table } from 'antd';
 import PropTypes from 'prop-types';
 import AddRecipe from './AddRecipe';
 import Product from './Product';
-import MyHeader from './Header';
 import * as actions from '../actions/actions';
-
-const { Content } = Layout;
 
 class App extends Component {
   constructor(props) {
@@ -72,26 +69,22 @@ class App extends Component {
     ];
     const data = this.props.table.map(x => <h2 key={x.key}>{x.name}</h2>);
     return (
-      <Layout className="layout">
-        <MyHeader />
-        <Content style={{ padding: '0 50px' }}>
-          <div style={{ background: '#fff', padding: 5, minHeight: 280 }}>
-            <h1>Products</h1>
-            <Table
-              columns={columns}
-              dataSource={this.props.products}
-              pagination={false}
-            />
-            <h1>Recipes</h1>
-            {data}
-            <AddRecipe />
-          </div>
-          <br />
-          <div>
-            <Product product={this.state.product} />
-          </div>
-        </Content>
-      </Layout>
+      <React.Fragment>
+        <div style={{ background: '#fff', padding: 5, minHeight: 280 }}>
+          <h1>Products</h1>
+          <Table
+            columns={columns}
+            dataSource={this.props.products}
+            pagination={false}
+          />
+          <h1>Recipes</h1>
+          {data}
+          <AddRecipe />
+        </div>
+        <div>
+          <Product product={this.state.product} />
+        </div>
+      </React.Fragment>
     );
   }
 }
