@@ -54,7 +54,7 @@ const ProductList = ({ products, match }) => (
   <React.Fragment>
     <h1>Products</h1>
     <Link className="ant-btn ant-btn-primary" to={`${match.url}/html`}>
-      Your Text
+      Dodaj przepis
     </Link>
     <Table columns={columns} dataSource={products} pagination={false} />
   </React.Fragment>
