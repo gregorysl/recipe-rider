@@ -8,6 +8,16 @@ import { measurementTypes } from '../api/api';
 
 const FormItem = Form.Item;
 
+const FormItemNumberField = ({ item, decorator }) => (
+  <FormItem key={item.key} label={item.name}>
+    {decorator(item.key, {})(<InputNumber step={1} precision={0} placeholder={item.name} />)}
+  </FormItem>
+);
+
+FormItemNumberField.propTypes = {
+  decorator: PropTypes.func.isRequired,
+  item: PropTypes.shape().isRequired
+};
 const defaults = 'grams';
 function hasErrors(fieldsError) {
   return Object.keys(fieldsError).some(field => fieldsError[field]);
@@ -35,22 +45,12 @@ class Product extends Component {
     const selectedValue = gfv || defaults;
     const products = measurementTypes.filter(x => x.key === selectedValue)[0];
     const mains = products.main ? products.key : products.parent;
-    const main = measurementTypes.filter(x => x.key === mains).map(x => (
-      <FormItem key={x.key} label={x.name}>
-        {/* eslint-disable max-len */}
-        {getFieldDecorator(x.key, {})(<InputNumber step={1} precision={0} placeholder={x.name} />)}
-        {/* eslint-enable */}
-      </FormItem>
-    ));
+    const main = measurementTypes
+      .filter(x => x.key === mains)
+      .map(x => <FormItemNumberField item={x} decorator={getFieldDecorator} />);
     const additional = measurementTypes
       .filter(x => x.parent === mains)
-      .map(x => (
-        <FormItem key={x.key} label={x.name}>
-          {/* eslint-disable max-len */}
-          {getFieldDecorator(x.key, {})(<InputNumber step={1} precision={0} placeholder={x.name} />)}
-          {/* eslint-enable */}
-        </FormItem>
-      ));
+      .map(x => <FormItemNumberField item={x} decorator={getFieldDecorator} />);
     getFieldDecorator('key');
     return (
       <Form className="ant-advanced-search-form" onSubmit={this.handleSubmit}>
