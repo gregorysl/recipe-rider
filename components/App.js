@@ -2,23 +2,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import AddRecipe from './AddRecipe';
-import Product from './Product';
 import * as actions from '../actions/actions';
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      product: null
-    };
-    this.handleClick = this.handleClick.bind(this);
-  }
   componentDidMount() {
     this.props.getRecipes();
-  }
-  handleClick(product) {
-    this.setState({ product });
   }
   render() {
     const data = this.props.table.map(x => <h2 key={x.key}>{x.name}</h2>);
@@ -27,9 +15,6 @@ class App extends Component {
         <h1>Recipes</h1>
         {data}
         <AddRecipe />
-        <div>
-          <Product product={this.state.product} />
-        </div>
       </React.Fragment>
     );
   }
