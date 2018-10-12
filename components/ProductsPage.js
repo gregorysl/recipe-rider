@@ -53,7 +53,7 @@ const columns = [
 const ProductList = ({ products, match }) => (
   <React.Fragment>
     <h1>Products</h1>
-    <Link className="ant-btn ant-btn-primary" to={`${match.url}/html`}>
+    <Link className="ant-btn ant-btn-primary" to={`${match.url}/add`}>
       Dodaj przepis
     </Link>
     <Table columns={columns} dataSource={products} pagination={false} />
@@ -90,8 +90,9 @@ class ProductsPage extends Component {
           render={() => <ProductList {...this.props} />}
         />
         <Route
-          path={`${this.props.match.path}/html`}
-          render={() => <Product product={{}} />}
+          exact
+          path={`${this.props.match.path}/add`}
+          render={() => <Product product={null} />}
         />
       </Switch>
     );
