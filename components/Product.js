@@ -9,13 +9,11 @@ import { measurementTypes } from '../api/api';
 const FormItem = Form.Item;
 
 const mapFilteredNumberFields = (list, filter, decorator) =>
-  list
-    .filter(filter)
-    .map(item => (
-      <FormItem label={item.name}>
-        {decorator(item.key, {})(<InputNumber step={1} precision={0} placeholder={item.name} />)}
-      </FormItem>
-    ));
+  list.filter(filter).map(item => (
+    <FormItem key={item.key} label={item.name}>
+      {decorator(item.key, {})(<InputNumber step={1} precision={0} placeholder={item.name} />)}
+    </FormItem>
+  ));
 
 const defaults = 'grams';
 function hasErrors(fieldsError) {
@@ -30,6 +28,7 @@ class Product extends Component {
         console.log('Received values of form: ', values);
 
         this.props.saveProduct(values);
+        this.props.onSave();
       }
     });
   };
@@ -139,6 +138,7 @@ Product.defaultProps = { product: {} };
 Product.propTypes = {
   product: PropTypes.shape(),
   saveProduct: PropTypes.func.isRequired,
+  onSave: PropTypes.func.isRequired,
   form: PropTypes.shape({
     getFieldsValue: PropTypes.func,
     getFieldValue: PropTypes.func,
