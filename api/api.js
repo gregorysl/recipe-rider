@@ -1,3 +1,5 @@
+import { productsRef } from '../config/firebase';
+
 const recipes = [
   {
     key: 1,
@@ -84,6 +86,8 @@ export function saveProduct(product) {
     const index = products.indexOf(item);
     products[index] = product;
   }
+  const a = productsRef.push(product);
+  console.log(a);
   return true;
 }
 export function getProducts() {
