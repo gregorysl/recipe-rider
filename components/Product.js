@@ -27,6 +27,12 @@ class Product extends Component {
       if (!err) {
         console.log('Received values of form: ', values);
 
+        Object.keys(values).forEach((key) => {
+          if (typeof values[key] === 'undefined') {
+            values[key] = null;
+          }
+        });
+
         this.props.saveProduct(values);
         this.props.onSave();
       }
