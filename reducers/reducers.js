@@ -1,7 +1,6 @@
 import { combineReducers } from 'redux';
 import * as types from '../constants/actionTypes';
 
-
 function recipeReducer(state = [], action) {
   switch (action.type) {
     case types.GET_RECIPE_SUCCESS:
@@ -13,12 +12,11 @@ function recipeReducer(state = [], action) {
 function productReducer(state = [], action) {
   switch (action.type) {
     case types.GET_PRODUCT_SUCCESS:
-      return [...action.data];
+      return [...Object.values(action.data)];
     default:
       return state;
   }
 }
-
 
 const rootReducer = combineReducers({
   table: recipeReducer,

@@ -5,7 +5,7 @@ import * as types from '../constants/actionTypes';
 export function* getProducts() {
   try {
     const data = yield call(api.getProducts);
-    yield put({ type: types.GET_PRODUCT_SUCCESS, data });
+    yield put({ type: types.GET_PRODUCT_SUCCESS, data: data.val() });
   } catch (error) {
     yield put({ type: types.GET_PRODUCT_ERROR, data: error.response.data });
   }
