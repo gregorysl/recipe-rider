@@ -5,6 +5,6 @@ if (!firebase.apps.length) {
   firebase.initializeApp(config);
 }
 
-const databaseRef = firebase.database().ref();
-export const productsRef = databaseRef.child('products');
-export const recipesRef = databaseRef.child('recipes');
+export const databaseRef = firebase.database();
+export const productsRef = databaseRef.ref('/products');
+export const recipesRef = databaseRef.ref('/recipes');
