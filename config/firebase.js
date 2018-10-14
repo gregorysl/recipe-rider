@@ -7,4 +7,5 @@ if (!firebase.apps.length) {
 
 export const databaseRef = firebase.database();
 export const productsRef = databaseRef.ref('/products');
+export const measurementsRef = databaseRef.ref('/measurements');
 export const recipesRef = databaseRef.ref('/recipes');

@@ -21,7 +21,7 @@ function productReducer(state = [], action) {
 function measurementReducer(state = [], action) {
   switch (action.type) {
     case types.GET_MEASUREMENTS_SUCCESS:
-      return [...action.data]; // [...Object.values(action.data)];
+      return [...Object.values(action.data)];
     default:
       return state;
   }

@@ -1,4 +1,4 @@
-import { databaseRef, productsRef } from '../config/firebase';
+import { databaseRef, productsRef, measurementsRef } from '../config/firebase';
 
 const recipes = [
   {
@@ -34,37 +34,11 @@ export function saveProduct(product) {
   databaseRef.ref(`/products/${productKey}`).set(product);
   return true;
 }
+
 export function getProducts() {
   return productsRef.once('value');
 }
-export const measurementTypes = [
-  {
-    key: 'piece',
-    name: 'Sztuka',
-    main: true
-  },
-  {
-    key: 'grams',
-    name: 'Gramy',
-    main: true
-  },
-  {
-    key: 'glass',
-    name: 'Szklanka',
-    parent: 'grams'
-  },
-  {
-    key: 'bigSpoon',
-    name: 'Duża łyżka',
-    parent: 'grams'
-  },
-  {
-    key: 'smallSpoon',
-    name: 'Mała łyżeczka',
-    parent: 'grams'
-  }
-];
 
 export function getMeasurements() {
-  return measurementTypes;
+  return measurementsRef.once('value');
 }
