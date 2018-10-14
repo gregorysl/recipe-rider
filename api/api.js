@@ -24,16 +24,15 @@ export function getRecipes() {
 }
 
 export function saveProduct(product) {
+  let productKey = '';
   if (!product.key) {
-    const { key } = databaseRef.ref('/products').push();
-    product.key = key;
+    productKey = databaseRef.ref('/products').push().key;
+    product.key = productKey;
     product.active = true;
-    databaseRef.ref(`/products/${key}`).set(product);
   } else {
-    const item = products.filter(x => x.key === product.key)[0];
-    const index = products.indexOf(item);
-    products[index] = product;
+    productKey = product.key;
   }
+  databaseRef.ref(`/products/${productKey}`).set(product);
   return true;
 }
 export function getProducts() {

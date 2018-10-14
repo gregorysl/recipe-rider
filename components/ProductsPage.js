@@ -91,7 +91,7 @@ class ProductsPage extends Component {
 ProductsPage.propTypes = {
   /* eslint-disable indent */
   products: PropTypes.arrayOf(PropTypes.shape({
-      key: PropTypes.number.isRequired,
+      key: PropTypes.string.isRequired,
       name: PropTypes.string.isRequired,
       measurement: PropTypes.string.isRequired,
       unitPrice: PropTypes.number.isRequired,
