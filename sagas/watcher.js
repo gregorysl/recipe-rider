@@ -1,6 +1,7 @@
 import { takeLatest } from 'redux-saga/effects';
 import * as recipeSagas from './tableSagas';
 import * as productSagas from './productSagas';
+import measurementSagas from './measurementSagas';
 import * as types from '../constants/actionTypes';
 
 export function* watchAddRecipe() {
@@ -15,4 +16,8 @@ export function* watchSaveProduct() {
 }
 export function* watchGetProducts() {
   yield takeLatest(types.GET_PRODUCT_REQUEST, productSagas.getProducts);
+}
+
+export function* watchGetMeasurements() {
+  yield takeLatest(types.GET_MEASUREMENTS_REQUEST, measurementSagas);
 }

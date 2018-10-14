@@ -1,4 +1,4 @@
-import { databaseRef } from '../config/firebase';
+import { databaseRef, productsRef } from '../config/firebase';
 
 const recipes = [
   {
@@ -11,7 +11,6 @@ const recipes = [
   }
 ];
 let currentRecipeKey = 2;
-const products = [];
 
 export function addRecipe(recipe) {
   recipe.key = currentRecipeKey;
@@ -26,7 +25,7 @@ export function getRecipes() {
 export function saveProduct(product) {
   let productKey = '';
   if (!product.key) {
-    productKey = databaseRef.ref('/products').push().key;
+    productKey = productsRef.push().key;
     product.key = productKey;
     product.active = true;
   } else {
@@ -36,9 +35,8 @@ export function saveProduct(product) {
   return true;
 }
 export function getProducts() {
-  return databaseRef.ref('/products').once('value');
+  return productsRef.once('value');
 }
-
 export const measurementTypes = [
   {
     key: 'piece',
@@ -66,3 +64,7 @@ export const measurementTypes = [
     parent: 'grams'
   }
 ];
+
+export function getMeasurements() {
+  return measurementTypes;
+}

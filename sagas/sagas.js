@@ -5,7 +5,8 @@ const sagas = [
   fork(watch.watchAddRecipe),
   fork(watch.watchGetRecipes),
   fork(watch.watchSaveProduct),
-  fork(watch.watchGetProducts)
+  fork(watch.watchGetProducts),
+  fork(watch.watchGetMeasurements)
 ];
 
 export default function* () {

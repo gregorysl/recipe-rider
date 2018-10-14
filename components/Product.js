@@ -2,9 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Input, Form, Button, InputNumber, Col, Switch, Row } from 'antd';
-import { saveProduct } from '../actions/actions';
+import { saveProduct, getMeasurements } from '../actions/actions';
 import MeasurementUnit from './MeasurementUnit';
-import { measurementTypes } from '../api/api';
 
 const FormItem = Form.Item;
 
@@ -21,6 +20,9 @@ function hasErrors(fieldsError) {
 }
 
 class Product extends Component {
+  componentDidMount() {
+    this.props.getMeasurements();
+  }
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
@@ -42,23 +44,28 @@ class Product extends Component {
   render() {
     const {
       product,
-      form: { getFieldDecorator, getFieldsError, getFieldValue }
+      form: { getFieldDecorator, getFieldsError, getFieldValue },
+      measurements
     } = this.props;
     const title = product ? 'Edytuj' : 'Dodaj';
     const gfv = getFieldValue('measurement');
     const selectedValue = gfv || defaults;
-    const products = measurementTypes.filter(x => x.key === selectedValue)[0];
-    const mains = products.main ? products.key : products.parent;
-    const main = mapFilteredNumberFields(
-      measurementTypes,
-      x => x.key === mains,
-      getFieldDecorator
-    );
-    const additional = mapFilteredNumberFields(
-      measurementTypes,
-      x => x.parent === mains,
-      getFieldDecorator
-    );
+    let main = null;
+    let additional = null;
+    if (measurements.length > 0) {
+      const products = measurements.filter(x => x.key === selectedValue)[0];
+      const mains = products.main ? products.key : products.parent;
+      main = mapFilteredNumberFields(
+        measurements,
+        x => x.key === mains,
+        getFieldDecorator
+      );
+      additional = mapFilteredNumberFields(
+        measurements,
+        x => x.parent === mains,
+        getFieldDecorator
+      );
+    }
     getFieldDecorator('key');
     return (
       <Form className="ant-advanced-search-form" onSubmit={this.handleSubmit}>
@@ -137,9 +144,10 @@ class Product extends Component {
 const mapDispatchToProps = dispatch => ({
   saveProduct: (data) => {
     dispatch(saveProduct(data));
-  }
+  },
+  getMeasurements: () => dispatch(getMeasurements())
 });
-Product.defaultProps = { product: {} };
+Product.defaultProps = { product: {}, measurements: [] };
 
 Product.propTypes = {
   product: PropTypes.shape(),
@@ -159,7 +167,9 @@ Product.propTypes = {
     isFieldsTouched: PropTypes.func,
     resetFields: PropTypes.func,
     getFieldDecorator: PropTypes.func
-  }).isRequired
+  }).isRequired,
+  measurements: PropTypes.arrayOf(PropTypes.shape()),
+  getMeasurements: PropTypes.func.isRequired
 };
 
 const WrappedAddProductForm = Form.create({
@@ -174,7 +184,10 @@ const WrappedAddProductForm = Form.create({
   }
 })(Product);
 
+const mapStateToProps = state => ({
+  measurements: state.measurements
+});
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(WrappedAddProductForm);

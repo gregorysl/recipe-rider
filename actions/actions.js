@@ -17,3 +17,7 @@ export const saveProduct = product => ({
 export const getProducts = () => ({
   type: types.GET_PRODUCT_REQUEST
 });
+
+export const getMeasurements = () => ({
+  type: types.GET_MEASUREMENTS_REQUEST
+});
