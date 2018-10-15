@@ -36,7 +36,7 @@ class Product extends Component {
         });
 
         this.props.saveProduct(values);
-        this.props.onSave();
+        this.props.close();
       }
     });
   };
@@ -135,6 +135,7 @@ class Product extends Component {
           >
             Zapisz
           </Button>
+          <Button onClick={() => this.props.close()}>Anuluj</Button>
         </FormItem>
       </Form>
     );
@@ -152,7 +153,7 @@ Product.defaultProps = { product: {}, measurements: [] };
 Product.propTypes = {
   product: PropTypes.shape(),
   saveProduct: PropTypes.func.isRequired,
-  onSave: PropTypes.func.isRequired,
+  close: PropTypes.func.isRequired,
   form: PropTypes.shape({
     getFieldsValue: PropTypes.func,
     getFieldValue: PropTypes.func,

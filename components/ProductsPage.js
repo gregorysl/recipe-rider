@@ -14,13 +14,10 @@ class ProductsPage extends Component {
       showProductPanel: false
     };
     this.handleClick = this.handleClick.bind(this);
-    this.onSave = this.onSave.bind(this);
+    this.close = this.close.bind(this);
   }
   componentDidMount() {
     this.props.getProducts();
-  }
-  onSave() {
-    this.setState({ product: null, showProductPanel: false });
   }
   getColumns() {
     return [
@@ -68,6 +65,9 @@ class ProductsPage extends Component {
       }
     ];
   }
+  close() {
+    this.setState({ product: null, showProductPanel: false });
+  }
   handleClick(product) {
     this.setState({ product, showProductPanel: true });
   }
@@ -77,7 +77,7 @@ class ProductsPage extends Component {
         <h1>Products</h1>
         <Button onClick={() => this.handleClick(null)}>Dodaj</Button>
         {this.state.showProductPanel && (
-          <Product product={this.state.product} onSave={this.onSave} />
+          <Product product={this.state.product} close={this.close} />
         )}
         <Table
           columns={this.getColumns()}
