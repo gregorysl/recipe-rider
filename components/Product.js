@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Input, Form, Button, InputNumber, Col, Switch, Row } from 'antd';
-import { saveProduct, getMeasurements } from '../actions/actions';
 import MeasurementUnit from './MeasurementUnit';
 
 const FormItem = Form.Item;
@@ -20,9 +18,6 @@ function hasErrors(fieldsError) {
 }
 
 class Product extends Component {
-  componentDidMount() {
-    this.props.getMeasurements();
-  }
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
@@ -142,12 +137,6 @@ class Product extends Component {
   }
 }
 
-const mapDispatchToProps = dispatch => ({
-  saveProduct: (data) => {
-    dispatch(saveProduct(data));
-  },
-  getMeasurements: () => dispatch(getMeasurements())
-});
 Product.defaultProps = { product: {}, measurements: [] };
 
 Product.propTypes = {
@@ -169,8 +158,7 @@ Product.propTypes = {
     resetFields: PropTypes.func,
     getFieldDecorator: PropTypes.func
   }).isRequired,
-  measurements: PropTypes.arrayOf(PropTypes.shape()),
-  getMeasurements: PropTypes.func.isRequired
+  measurements: PropTypes.arrayOf(PropTypes.shape())
 };
 
 const WrappedAddProductForm = Form.create({
@@ -185,10 +173,4 @@ const WrappedAddProductForm = Form.create({
   }
 })(Product);
 
-const mapStateToProps = state => ({
-  measurements: state.measurements
-});
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(WrappedAddProductForm);
+export default WrappedAddProductForm;

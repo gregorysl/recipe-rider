@@ -14,10 +14,12 @@ class ProductsPage extends Component {
       showProductPanel: false
     };
     this.handleClick = this.handleClick.bind(this);
+    this.getMeasurementName = this.getMeasurementName.bind(this);
     this.close = this.close.bind(this);
   }
   componentDidMount() {
     this.props.getProducts();
+    this.props.getMeasurements();
   }
   getColumns() {
     return [
@@ -29,7 +31,8 @@ class ProductsPage extends Component {
       {
         title: 'Measurement',
         dataIndex: 'measurement',
-        key: 'measurement'
+        key: 'measurement',
+        render: key => this.getMeasurementName(key)
       },
       {
         title: 'Grams',
@@ -65,6 +68,12 @@ class ProductsPage extends Component {
       }
     ];
   }
+  getMeasurementName(key) {
+    if (this.props.measurements.length > 1) {
+      return this.props.measurements.find(x => x.key === key).name;
+    }
+    return key;
+  }
   close() {
     this.setState({ product: null, showProductPanel: false });
   }
@@ -77,7 +86,12 @@ class ProductsPage extends Component {
         <h1>Products</h1>
         <Button onClick={() => this.handleClick(null)}>Dodaj</Button>
         {this.state.showProductPanel && (
-          <Product product={this.state.product} close={this.close} />
+          <Product
+            product={this.state.product}
+            close={this.close}
+            measurements={this.props.measurements}
+            saveProduct={this.props.saveProduct}
+          />
         )}
         <Table
           columns={this.getColumns()}
@@ -102,15 +116,26 @@ ProductsPage.propTypes = {
       piece: PropTypes.number,
       grams: PropTypes.number
     }).isRequired).isRequired,
-  getProducts: PropTypes.func.isRequired
+  measurements: PropTypes.arrayOf(PropTypes.shape()),
+  getProducts: PropTypes.func.isRequired,
+  saveProduct: PropTypes.func.isRequired,
+  getMeasurements: PropTypes.func.isRequired
   /* eslint-enable */
 };
+
+ProductsPage.defaultProps = { measurements: [] };
+
 const mapStateToProps = state => ({
-  products: state.product
+  products: state.product,
+  measurements: state.measurements
 });
 
 const mapDispatchToProps = dispatch => ({
-  getProducts: () => dispatch(actions.getProducts())
+  getProducts: () => dispatch(actions.getProducts()),
+  getMeasurements: () => dispatch(actions.getMeasurements()),
+  saveProduct: (data) => {
+    dispatch(actions.saveProduct(data));
+  }
 });
 
 export default connect(
