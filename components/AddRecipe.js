@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Input, Icon, Form, Button } from 'antd';
 import AddProductToRecipe from './AddProductToRecipe';
-import { addRecipe, getProducts } from '../actions/actions';
+import { addRecipe, getProducts, getMeasurements } from '../actions/actions';
 
 const FormItem = Form.Item;
 let uuid = 0;
@@ -18,6 +18,7 @@ class AddRecipe extends Component {
 
   componentDidMount() {
     this.props.getProducts();
+    this.props.getMeasurements();
   }
 
   remove(k) {
@@ -57,7 +58,7 @@ class AddRecipe extends Component {
       return;
     }
     callback('Price must greater than zero!');
-  }
+  };
 
   render() {
     const { getFieldDecorator } = this.props.form;
@@ -73,14 +74,18 @@ class AddRecipe extends Component {
     };
     const { productKeys } = this.state;
     const formItems = productKeys.map(k => (
-      <FormItem
-        {...(formItemLayout)}
-        required={false}
-        key={k}
-      >
-        {getFieldDecorator(`products[${k}]`, {
-            rules: [{ validator: this.checkProduct }]
-        })(<AddProductToRecipe products={this.props.products} />)}
+      <FormItem {...formItemLayout} required={false} key={k}>
+        {/* eslint-disable  */
+        getFieldDecorator(`products[${k}]`, {
+          rules: [{ validator: this.checkProduct }]
+        })(
+          <AddProductToRecipe
+            measurements={this.props.measurements}
+            products={this.props.products}
+          />
+        )
+        /* eslint-enable */
+        }
         {productKeys.length > 1 ? (
           <Icon
             className="dynamic-delete-button"
@@ -97,8 +102,10 @@ class AddRecipe extends Component {
         <Form onSubmit={this.handleSubmit}>
           <FormItem {...formItemLayout}>
             {getFieldDecorator('name', {
-            rules: [{ required: true, message: 'Please input your username!' }]
-          })(<Input placeholder="Note" type="text" />)}
+              rules: [
+                { required: true, message: 'Please input your username!' }
+              ]
+            })(<Input placeholder="Note" type="text" />)}
           </FormItem>
           {formItems}
           <FormItem {...formItemLayout}>
@@ -107,7 +114,9 @@ class AddRecipe extends Component {
             </Button>
           </FormItem>
           <FormItem {...formItemLayout}>
-            <Button type="primary" htmlType="submit">Submit</Button>
+            <Button type="primary" htmlType="submit">
+              Submit
+            </Button>
           </FormItem>
         </Form>
       </div>
@@ -116,11 +125,13 @@ class AddRecipe extends Component {
 }
 
 const mapStateToProps = state => ({
-  products: state.product
+  products: state.product,
+  measurements: state.measurements
 });
 const mapDispatchToProps = dispatch => ({
   addRecipe: data => dispatch(addRecipe(data)),
-  getProducts: () => dispatch(getProducts())
+  getProducts: () => dispatch(getProducts()),
+  getMeasurements: () => dispatch(getMeasurements())
 });
 AddRecipe.defaultProps = { note: '' };
 
@@ -143,8 +154,13 @@ AddRecipe.propTypes = {
     isFieldsTouched: PropTypes.func,
     resetFields: PropTypes.func,
     getFieldDecorator: PropTypes.func
-  }).isRequired
+  }).isRequired,
+  measurements: PropTypes.arrayOf(PropTypes.shape()).isRequired,
+  getMeasurements: PropTypes.func.isRequired
 };
 
 const WrappedAddRecipe = Form.create()(AddRecipe);
-export default connect(mapStateToProps, mapDispatchToProps)(WrappedAddRecipe);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(WrappedAddRecipe);

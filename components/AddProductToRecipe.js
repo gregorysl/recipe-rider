@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Input, Select } from 'antd';
 import MeasurementUnit from './MeasurementUnit';
-import { measurementTypes } from '../api/api';
 
 const { Option } = Select;
 
@@ -66,15 +65,15 @@ class AddProductToRecipe extends Component {
     ));
     const selProd = this.props.products.filter(x => x.key === +state.product)[0];
     let value = '';
-    if (selProd && state.amount) {
-      const selMeasurement = measurementTypes.filter(x => x.key === state.measurement)[0];
+    if (this.props.measurements.length > 1 && selProd && state.amount) {
+      const selMeasurement = this.props.measurements.filter(x => x.key === state.measurement)[0];
       if (selMeasurement.main) {
         value = (state.amount * selProd.unitPrice) / selProd[state.measurement];
       } else {
-        const mainMeasurement = measurementTypes.filter(x => x.key === selMeasurement.parent)[0];
+        const main = this.props.measurements.filter(x => x.key === selMeasurement.parent)[0];
         value =
           (state.amount * selProd[state.measurement] * selProd.unitPrice) /
-          selProd[mainMeasurement.key];
+          selProd[main.key];
       }
     }
     return (
@@ -100,6 +99,7 @@ class AddProductToRecipe extends Component {
           style={{ width: '20%', marginRight: '2%' }}
         />
         <MeasurementUnit
+          data={this.props.measurements}
           defaultValue={state.measurement}
           onChange={this.handleMeasurementChange}
           style={{ width: '30%', marginRight: '1%' }}
@@ -109,9 +109,14 @@ class AddProductToRecipe extends Component {
     );
   }
 }
-AddProductToRecipe.defaultProps = { onChange: null, value: {} };
+AddProductToRecipe.defaultProps = {
+  onChange: null,
+  value: {},
+  measurements: []
+};
 
 AddProductToRecipe.propTypes = {
+  measurements: PropTypes.arrayOf(PropTypes.shape()),
   products: PropTypes.arrayOf(PropTypes.object).isRequired,
   onChange: PropTypes.func,
   value: PropTypes.shape({

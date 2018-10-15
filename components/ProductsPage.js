@@ -105,47 +105,6 @@ ProductsPage.propTypes = {
   getProducts: PropTypes.func.isRequired
   /* eslint-enable */
 };
-// class ProductsPage extends Component {
-//   componentDidMount() {
-//     this.props.getProducts();
-//   }
-
-//   render() {
-//     return (
-//       <Switch>
-//         <Route
-//           exact
-//           path={`${this.props.match.path}`}
-//           render={() => <ProductList {...this.props} />}
-//         />
-//         <Route
-//           exact
-//           path={`${this.props.match.path}/add`}
-//           render={() => <Product product={null} />}
-//         />
-//       </Switch>
-//     );
-//   }
-// }
-
-// ProductsPage.propTypes = {
-//   /* eslint-disable indent */
-//   match: PropTypes.shape().isRequired,
-//   products: PropTypes.arrayOf(PropTypes.shape({
-//       key: PropTypes.number.isRequired,
-//       name: PropTypes.string.isRequired,
-//       measurement: PropTypes.string.isRequired,
-//       unitPrice: PropTypes.number.isRequired,
-//       active: PropTypes.bool,
-//       bigSpoon: PropTypes.number,
-//       smallSpoon: PropTypes.number,
-//       glass: PropTypes.number,
-//       piece: PropTypes.number,
-//       grams: PropTypes.number
-//     }).isRequired).isRequired,
-//   getProducts: PropTypes.func.isRequired
-//   /* eslint-enable */
-// };
 const mapStateToProps = state => ({
   products: state.product
 });

@@ -1,25 +1,29 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Select } from 'antd';
-import { measurementTypes } from '../api/api';
 
 const { Option } = Select;
 
-const options = measurementTypes.map(x => (
-  <Option key={x.key} value={x.key}>
-    {x.name}
-  </Option>
-));
-
-const MeasurementUnit = props => (
-  <Select
-    style={props.style}
-    onChange={props.onChange}
-    value={props.defaultValue}
-  >
-    {options}
-  </Select>
-);
+const MeasurementUnit = (props) => {
+  /* eslint-disable react/jsx-indent */
+  const options = props.data
+    ? props.data.map(x => (
+        <Option key={x.key} value={x.key}>
+          {x.name}
+        </Option>
+    ))
+    : null;
+  /* eslint-enable */
+  return (
+    <Select
+      style={props.style}
+      onChange={props.onChange}
+      value={props.defaultValue}
+    >
+      {options}
+    </Select>
+  );
+};
 
 MeasurementUnit.defaultProps = {
   style: {},
@@ -27,6 +31,7 @@ MeasurementUnit.defaultProps = {
   onChange: null
 };
 MeasurementUnit.propTypes = {
+  data: PropTypes.arrayOf(PropTypes.shape()).isRequired,
   defaultValue: PropTypes.string,
   onChange: PropTypes.func,
   style: PropTypes.shape()

@@ -85,7 +85,7 @@ class Product extends Component {
                 initialValue: defaults,
                 valuePropName: 'defaultValue',
                 rules: [{ required: true, message: 'Podaj domyślną miarę' }]
-              })(<MeasurementUnit />)
+              })(<MeasurementUnit data={measurements} />)
               /* eslint-enable */
               }
             </FormItem>
