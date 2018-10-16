@@ -7,14 +7,11 @@ const CompressionPlugin = require('compression-webpack-plugin');
 const config = {
   devtool: 'source-map',
 
-  entry: [
-    './index.js',
-    './styles/style.less'
-  ],
+  entry: ['./index.js', './styles/style.less'],
 
   output: {
     filename: 'bundle.js',
-    path: resolve(__dirname, '_server\\ServerMonitor'),
+    path: resolve(__dirname, 'dist'),
     publicPath: '',
     jsonpFunction: 'webpackJsonp'
   },
@@ -52,8 +49,14 @@ const config = {
       }
     }),
     new webpack.HashedModuleIdsPlugin(),
-    new webpack.DefinePlugin({ 'process.env.NODE_ENV': JSON.stringify('production') }),
-    new ExtractTextPlugin({ filename: 'styles.css', disable: false, allChunks: true }),
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': JSON.stringify('production')
+    }),
+    new ExtractTextPlugin({
+      filename: 'styles.css',
+      disable: false,
+      allChunks: true
+    }),
     new CompressionPlugin({
       asset: '[path].gz[query]',
       algorithm: 'gzip',
