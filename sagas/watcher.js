@@ -1,5 +1,5 @@
 import { takeLatest } from 'redux-saga/effects';
-import * as recipeSagas from './tableSagas';
+import * as recipeSagas from './recipeSagas';
 import * as productSagas from './productSagas';
 import measurementSagas from './measurementSagas';
 import * as types from '../constants/actionTypes';

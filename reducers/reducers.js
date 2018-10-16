@@ -27,7 +27,7 @@ function measurementReducer(state = [], action) {
   }
 }
 const rootReducer = combineReducers({
-  table: recipeReducer,
+  recipes: recipeReducer,
   product: productReducer,
   measurements: measurementReducer
 });

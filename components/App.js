@@ -9,7 +9,7 @@ class App extends Component {
     this.props.getRecipes();
   }
   render() {
-    const data = this.props.table.map(x => <h2 key={x.key}>{x.name}</h2>);
+    const data = this.props.recipes.map(x => <h2 key={x.key}>{x.name}</h2>);
     return (
       <React.Fragment>
         <h1>Recipes</h1>
@@ -22,7 +22,7 @@ class App extends Component {
 
 /* eslint-disable indent */
 App.propTypes = {
-  table: PropTypes.arrayOf(PropTypes.shape({
+  recipes: PropTypes.arrayOf(PropTypes.shape({
       key: PropTypes.number.isRequired,
       name: PropTypes.string.isRequired
     }).isRequired).isRequired,
@@ -30,7 +30,7 @@ App.propTypes = {
   /* eslint-enable */
 };
 const mapStateToProps = state => ({
-  table: state.table
+  recipes: state.recipes
 });
 
 const mapDispatchToProps = dispatch => ({
