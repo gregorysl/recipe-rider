@@ -24,46 +24,51 @@ class ProductsPage extends Component {
   getColumns() {
     return [
       {
-        title: 'Name',
+        title: 'Nazwa',
         dataIndex: 'name',
         key: 'name'
       },
       {
-        title: 'Measurement',
+        title: 'Miara',
         dataIndex: 'measurement',
         key: 'measurement',
         render: key => this.getMeasurementName(key)
       },
       {
-        title: 'Grams',
-        dataIndex: 'grams',
-        key: 'grams'
-      },
-      {
-        title: 'Unit Price',
+        title: 'Cena',
         dataIndex: 'unitPrice',
         key: 'unitPrice'
       },
       {
-        title: 'Big Spoon',
+        title: 'Gramy',
+        dataIndex: 'grams',
+        key: 'grams'
+      },
+      {
+        title: 'Sztuka',
+        dataIndex: 'piece',
+        key: 'piece'
+      },
+      {
+        title: 'Łyżka',
         dataIndex: 'bigSpoon',
         key: 'bigSpoon'
       },
       {
-        title: 'Small Spoon',
+        title: 'Łyżeczka',
         dataIndex: 'smallSpoon',
         key: 'smallSpoon'
       },
       {
-        title: 'Glass',
+        title: 'Szklanka',
         dataIndex: 'glass',
         key: 'glass'
       },
       {
-        title: 'Action',
+        title: 'Akcje',
         key: 'action',
         render: (text, product) => (
-          <Button onClick={() => this.handleClick(product)}>Edit</Button>
+          <Button onClick={() => this.handleClick(product)}>Edytuj</Button>
         )
       }
     ];
@@ -83,7 +88,7 @@ class ProductsPage extends Component {
   render() {
     return (
       <React.Fragment>
-        <h1>Products</h1>
+        <h1>Produkty</h1>
         <Button onClick={() => this.handleClick(null)}>Dodaj</Button>
         {this.state.showProductPanel && (
           <Product
