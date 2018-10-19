@@ -1,25 +1,24 @@
-import { databaseRef, productsRef, measurementsRef } from '../config/firebase';
-
-const recipes = [
-  {
-    key: 1,
-    name: 'Jajecznik',
-    products: [
-      { amount: '3', product: '1', measurement: 'glass' },
-      { amount: '100', product: '2', measurement: 'grams' }
-    ]
-  }
-];
-let currentRecipeKey = 2;
+import {
+  databaseRef,
+  productsRef,
+  measurementsRef,
+  recipesRef
+} from '../config/firebase';
 
 export function addRecipe(recipe) {
-  recipe.key = currentRecipeKey;
-  currentRecipeKey += 1;
-  recipes.push(recipe);
+  let recipeKey = '';
+  if (!recipe.key) {
+    recipeKey = recipesRef.push().key;
+    recipe.key = recipeKey;
+    recipe.active = true;
+  } else {
+    recipeKey = recipe.key;
+  }
+  databaseRef.ref(`/recipes/${recipeKey}`).set(recipe);
   return true;
 }
 export function getRecipes() {
-  return recipes;
+  return recipesRef.once('value');
 }
 
 export function saveProduct(product) {
