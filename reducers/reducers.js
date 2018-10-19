@@ -4,7 +4,7 @@ import * as types from '../constants/actionTypes';
 function recipeReducer(state = [], action) {
   switch (action.type) {
     case types.GET_RECIPE_SUCCESS:
-      return [...action.data];
+      return [...Object.values(action.data)];
     default:
       return state;
   }
