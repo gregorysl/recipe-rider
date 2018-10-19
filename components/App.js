@@ -5,6 +5,13 @@ import PropTypes from 'prop-types';
 import AddRecipe from './AddRecipe';
 import * as actions from '../actions/actions';
 
+function findProductName(data, key) {
+  const product = data.filter(x => x.key === key)[0];
+  if (!product) {
+    return key;
+  }
+  return product.name;
+}
 class App extends Component {
   componentDidMount() {
     this.props.getRecipes();
@@ -13,13 +20,14 @@ class App extends Component {
     const data = this.props.recipes.map((x) => {
       const products = x.products.map(p => (
         <p key={p.product}>
-          {p.amount} {p.measurement} {p.product}
+          {p.amount} {findProductName(this.props.measurements, p.measurement)}{' '}
+          {findProductName(this.props.products, p.product)}
         </p>
       ));
       return (
         <Card key={x.key} title={x.name} style={{ width: 300 }}>
-          <p>{x.details}</p>
           {products}
+          <p>{x.details}</p>
         </Card>
       );
     });
@@ -41,11 +49,13 @@ App.propTypes = {
       name: PropTypes.string.isRequired
     }).isRequired).isRequired,
   products: PropTypes.arrayOf(PropTypes.shape()).isRequired,
+  measurements: PropTypes.arrayOf(PropTypes.shape()).isRequired,
   getRecipes: PropTypes.func.isRequired
   /* eslint-enable */
 };
 const mapStateToProps = state => ({
   recipes: state.recipes,
+  measurements: state.measurements,
   products: state.product
 });
 
