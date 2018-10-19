@@ -5,6 +5,8 @@ import { Input, Icon, Form, Button } from 'antd';
 import AddProductToRecipe from './AddProductToRecipe';
 import { addRecipe, getProducts, getMeasurements } from '../actions/actions';
 
+const { TextArea } = Input;
+
 const FormItem = Form.Item;
 let uuid = 0;
 class AddRecipe extends Component {
@@ -100,14 +102,21 @@ class AddRecipe extends Component {
       <div style={{ width: '50%' }}>
         <h1>Dodaj przepis</h1>
         <Form onSubmit={this.handleSubmit}>
-          <FormItem {...formItemLayout}>
+          <FormItem label="Nazwa" {...formItemLayout}>
             {getFieldDecorator('name', {
               rules: [
-                { required: true, message: 'Please input your username!' }
+                { required: true, message: 'Tytuł przepisu jest wymagany!' }
               ]
-            })(<Input placeholder="Note" type="text" />)}
+            })(<Input placeholder="Nazwa" type="text" />)}
           </FormItem>
           {formItems}
+          <FormItem label="Kroki" {...formItemLayout}>
+            {getFieldDecorator('details', {
+              rules: [
+                { required: true, message: 'Kroki przepisu są wymagane!' }
+              ]
+            })(<TextArea rows={5} />)}
+          </FormItem>
           <FormItem {...formItemLayout}>
             <Button type="dashed" onClick={this.add}>
               <Icon type="plus" /> Dodaj Składnik
@@ -115,7 +124,7 @@ class AddRecipe extends Component {
           </FormItem>
           <FormItem {...formItemLayout}>
             <Button type="primary" htmlType="submit">
-              Submit
+              Zapisz
             </Button>
           </FormItem>
         </Form>

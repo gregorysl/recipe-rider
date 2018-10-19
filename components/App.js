@@ -18,6 +18,7 @@ class App extends Component {
       ));
       return (
         <Card key={x.key} title={x.name} style={{ width: 300 }}>
+          <p>{x.details}</p>
           {products}
         </Card>
       );
@@ -35,7 +36,8 @@ class App extends Component {
 /* eslint-disable indent */
 App.propTypes = {
   recipes: PropTypes.arrayOf(PropTypes.shape({
-      key: PropTypes.number.isRequired,
+      key: PropTypes.string.isRequired,
+      details: PropTypes.string.isRequired,
       name: PropTypes.string.isRequired
     }).isRequired).isRequired,
   products: PropTypes.arrayOf(PropTypes.shape()).isRequired,
