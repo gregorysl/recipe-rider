@@ -63,7 +63,7 @@ class AddProductToRecipe extends Component {
     const data = this.props.products.map(d => (
       <Option key={d.key}>{d.name}</Option>
     ));
-    const selProd = this.props.products.filter(x => x.key === +state.product)[0];
+    const selProd = this.props.products.filter(x => x.key === state.product)[0];
     let value = '';
     if (this.props.measurements.length > 1 && selProd && state.amount) {
       const selMeasurement = this.props.measurements.filter(x => x.key === state.measurement)[0];
