@@ -6,11 +6,14 @@ import Product from './Product';
 import * as actions from '../actions/actions';
 
 function findProductName(data, key) {
-  const product = data.filter(x => x.key === key)[0];
-  if (!product) {
-    return key;
+  if (data.length > 1) {
+    const product = data.filter(x => x.key === key)[0];
+    if (!product) {
+      return key;
+    }
+    return product.name;
   }
-  return product.name;
+  return key;
 }
 class ProductsPage extends Component {
   constructor(props) {
