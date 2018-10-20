@@ -109,6 +109,11 @@ class AddRecipe extends Component {
               ]
             })(<Input placeholder="Nazwa" type="text" />)}
           </FormItem>
+          <FormItem {...formItemLayout}>
+            <Button type="dashed" onClick={this.add}>
+              <Icon type="plus" /> Dodaj Składnik
+            </Button>
+          </FormItem>
           {formItems}
           <FormItem label="Kroki" {...formItemLayout}>
             {getFieldDecorator('details', {
@@ -116,11 +121,6 @@ class AddRecipe extends Component {
                 { required: true, message: 'Kroki przepisu są wymagane!' }
               ]
             })(<TextArea rows={5} />)}
-          </FormItem>
-          <FormItem {...formItemLayout}>
-            <Button type="dashed" onClick={this.add}>
-              <Icon type="plus" /> Dodaj Składnik
-            </Button>
           </FormItem>
           <FormItem {...formItemLayout}>
             <Button type="primary" htmlType="submit">

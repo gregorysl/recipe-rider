@@ -19,8 +19,8 @@ const Item = (
     <Provider store={store}>
       <Layout className="layout">
         <MyHeader />
-        <Content style={{ padding: '0 50px' }}>
-          <div style={{ background: '#fff', padding: 5, minHeight: 280 }}>
+        <Content>
+          <div>
             <Switch>
               <Route path="/" exact component={App} />
               <Route path="/products" component={ProductsPage} />
