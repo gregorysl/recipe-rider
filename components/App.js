@@ -56,7 +56,7 @@ class App extends Component {
     return (
       <React.Fragment>
         <h1>Przepisy</h1>
-        <Button onClick={() => this.handleClick(null)}>Dodaj</Button>
+        <Button onClick={() => this.handleClick()}>Dodaj</Button>
 
         {this.state.showRecipePanel && (
           <AddRecipe

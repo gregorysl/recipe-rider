@@ -10,10 +10,7 @@ class AddProductToRecipe extends Component {
     super(props);
 
     const value = props.value || {};
-    this.state = {
-      amount: value.amount,
-      product: value.product
-    };
+    this.state = { ...value };
     this.handleNameChange = this.handleNameChange.bind(this);
     this.handleProductChange = this.handleProductChange.bind(this);
     this.handleMeasurementChange = this.handleMeasurementChange.bind(this);
