@@ -3,31 +3,36 @@ import 'babel-polyfill';
 import React from 'react';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';
-import { BrowserRouter } from 'react-router-dom';
-import { Layout } from 'antd';
+import { BrowserRouter, Link } from 'react-router-dom';
+import { Layout, Menu } from 'antd';
 import store from './store';
 import Main from './components/Main';
-import MyHeader from './components/Header';
 import './styles/style.less';
 
+const { Item } = Menu;
 const { Content } = Layout;
 
 const rootDiv = document.getElementById('app');
-const Item = (
+const Page = (
   <BrowserRouter>
     <Provider store={store}>
       <Layout className="layout">
-        <MyHeader />
+        <Menu mode="horizontal">
+          <Item key="home">
+            <Link to="/">Przepisy</Link>
+          </Item>
+          <Item key="products">
+            <Link to="/products">Products</Link>
+          </Item>
+        </Menu>
         <Content>
-          <div>
-            <Main />
-          </div>
+          <Main />
         </Content>
       </Layout>
     </Provider>
   </BrowserRouter>
 );
-render(Item, rootDiv);
+render(Page, rootDiv);
 
 if (module.hot) {
   module.hot.accept('./components/App', () => {
