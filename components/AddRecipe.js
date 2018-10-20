@@ -12,7 +12,11 @@ let uuid = 0;
 class AddRecipe extends Component {
   constructor(props) {
     super(props);
-    this.state = { productKeys: [] };
+    const pk = this.props.recipe.productKeys;
+    this.state = { productKeys: pk || [] };
+    if (pk) {
+      uuid = pk.sort()[pk.length - 1] + 1;
+    }
     this.remove = this.remove.bind(this);
     this.add = this.add.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -47,7 +51,7 @@ class AddRecipe extends Component {
     this.props.form.validateFields((err, values) => {
       if (!err) {
         console.log('Received values of form: ', values);
-
+        values.productKeys = this.state.productKeys;
         this.props.saveRecipe(values);
         this.props.close();
       }
@@ -78,7 +82,7 @@ class AddRecipe extends Component {
       recipe,
       measurements
     } = this.props;
-    const title = recipe ? 'Edytuj' : 'Dodaj';
+    const title = recipe.key ? 'Edytuj' : 'Dodaj';
     const { productKeys } = this.state;
     const formItems = productKeys.map(k => (
       <FormItem {...formItemLayout} required={false} key={k}>
@@ -103,6 +107,7 @@ class AddRecipe extends Component {
         ) : null}
       </FormItem>
     ));
+    getFieldDecorator('key');
     return (
       <div>
         <h1>{title} przepis</h1>
@@ -179,11 +184,15 @@ AddRecipe.propTypes = {
 
 const WrappedAddRecipe = Form.create({
   mapPropsToFields(props) {
-    debugger;
     const form = {};
     if (props.recipe != null) {
       Object.entries(props.recipe).forEach(([k, v]) => {
-        form[k] = Form.createFormField({ value: v });
+        if (k !== 'products') {
+          form[k] = Form.createFormField({ value: v });
+        }
+      });
+      props.recipe.products.forEach((item, idx) => {
+        form[`products[${idx}]`] = Form.createFormField({ value: item });
       });
     }
     return form;
