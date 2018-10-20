@@ -3,10 +3,12 @@ import 'babel-polyfill';
 import React from 'react';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';
-import { BrowserRouter, Link } from 'react-router-dom';
+import { BrowserRouter, Link, Switch, Route } from 'react-router-dom';
 import { Layout, Menu } from 'antd';
 import store from './store';
 import Main from './components/Main';
+import App from './components/App';
+import ProductsPage from './components/ProductsPage';
 import './styles/style.less';
 
 const { Item } = Menu;
@@ -27,6 +29,10 @@ const Page = (
         </Menu>
         <Content>
           <Main />
+          <Switch>
+            <Route path="/" exact component={App} />
+            <Route path="/products" component={ProductsPage} />
+          </Switch>
         </Content>
       </Layout>
     </Provider>

@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Switch, Route } from 'react-router-dom';
-import App from './App';
-import ProductsPage from './ProductsPage';
 import * as actions from '../actions/actions';
 
 class Main extends Component {
@@ -14,10 +11,7 @@ class Main extends Component {
   }
   render() {
     return (
-      <Switch>
-        <Route path="/" exact component={App} />
-        <Route path="/products" component={ProductsPage} />
-      </Switch>
+      <div />
     );
   }
 }
