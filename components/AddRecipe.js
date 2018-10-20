@@ -20,7 +20,6 @@ class AddRecipe extends Component {
 
   componentDidMount() {
     this.props.getProducts();
-    this.props.getMeasurements();
   }
 
   remove(k) {
@@ -49,7 +48,8 @@ class AddRecipe extends Component {
       if (!err) {
         console.log('Received values of form: ', values);
 
-        this.props.addRecipe(values);
+        this.props.saveRecipe(values);
+        this.props.close();
       }
     });
   }
@@ -74,6 +74,11 @@ class AddRecipe extends Component {
         sm: { span: 20 }
       }
     };
+    const {
+      recipe,
+      measurements
+    } = this.props;
+    const title = recipe ? 'Edytuj' : 'Dodaj';
     const { productKeys } = this.state;
     const formItems = productKeys.map(k => (
       <FormItem {...formItemLayout} required={false} key={k}>
@@ -82,7 +87,7 @@ class AddRecipe extends Component {
           rules: [{ validator: this.checkProduct }]
         })(
           <AddProductToRecipe
-            measurements={this.props.measurements}
+            measurements={measurements}
             products={this.props.products}
           />
         )
@@ -99,8 +104,8 @@ class AddRecipe extends Component {
       </FormItem>
     ));
     return (
-      <div style={{ width: '50%' }}>
-        <h1>Dodaj przepis</h1>
+      <div>
+        <h1>{title} przepis</h1>
         <Form onSubmit={this.handleSubmit}>
           <FormItem label="Nazwa" {...formItemLayout}>
             {getFieldDecorator('name', {
@@ -126,6 +131,7 @@ class AddRecipe extends Component {
             <Button type="primary" htmlType="submit">
               Zapisz
             </Button>
+            <Button onClick={() => this.props.close()}>Anuluj</Button>
           </FormItem>
         </Form>
       </div>
@@ -142,9 +148,12 @@ const mapDispatchToProps = dispatch => ({
   getProducts: () => dispatch(getProducts()),
   getMeasurements: () => dispatch(getMeasurements())
 });
-AddRecipe.defaultProps = { note: '' };
+AddRecipe.defaultProps = { recipe: {}, note: '' };
 
 AddRecipe.propTypes = {
+  recipe: PropTypes.shape(),
+  saveRecipe: PropTypes.func.isRequired,
+  close: PropTypes.func.isRequired,
   note: PropTypes.string,
   addRecipe: PropTypes.func.isRequired,
   products: PropTypes.arrayOf(PropTypes.object).isRequired,
@@ -168,7 +177,18 @@ AddRecipe.propTypes = {
   getMeasurements: PropTypes.func.isRequired
 };
 
-const WrappedAddRecipe = Form.create()(AddRecipe);
+const WrappedAddRecipe = Form.create({
+  mapPropsToFields(props) {
+    debugger;
+    const form = {};
+    if (props.recipe != null) {
+      Object.entries(props.recipe).forEach(([k, v]) => {
+        form[k] = Form.createFormField({ value: v });
+      });
+    }
+    return form;
+  }
+})(AddRecipe);
 export default connect(
   mapStateToProps,
   mapDispatchToProps
