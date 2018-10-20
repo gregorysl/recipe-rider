@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Input, Icon, Form, Button } from 'antd';
 import AddProductToRecipe from './AddProductToRecipe';
-import { addRecipe, getProducts, getMeasurements } from '../actions/actions';
+import { addRecipe } from '../actions/actions';
 
 const { TextArea } = Input;
 
@@ -20,10 +20,6 @@ class AddRecipe extends Component {
     this.remove = this.remove.bind(this);
     this.add = this.add.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-  }
-
-  componentDidMount() {
-    this.props.getProducts();
   }
 
   remove(k) {
@@ -149,9 +145,7 @@ const mapStateToProps = state => ({
   measurements: state.measurements
 });
 const mapDispatchToProps = dispatch => ({
-  addRecipe: data => dispatch(addRecipe(data)),
-  getProducts: () => dispatch(getProducts()),
-  getMeasurements: () => dispatch(getMeasurements())
+  addRecipe: data => dispatch(addRecipe(data))
 });
 AddRecipe.defaultProps = { recipe: {}, note: '' };
 
@@ -162,7 +156,6 @@ AddRecipe.propTypes = {
   note: PropTypes.string,
   addRecipe: PropTypes.func.isRequired,
   products: PropTypes.arrayOf(PropTypes.object).isRequired,
-  getProducts: PropTypes.func.isRequired,
   form: PropTypes.shape({
     getFieldsValue: PropTypes.func,
     getFieldValue: PropTypes.func,
@@ -178,8 +171,7 @@ AddRecipe.propTypes = {
     resetFields: PropTypes.func,
     getFieldDecorator: PropTypes.func
   }).isRequired,
-  measurements: PropTypes.arrayOf(PropTypes.shape()).isRequired,
-  getMeasurements: PropTypes.func.isRequired
+  measurements: PropTypes.arrayOf(PropTypes.shape()).isRequired
 };
 
 const WrappedAddRecipe = Form.create({

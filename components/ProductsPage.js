@@ -27,10 +27,6 @@ class ProductsPage extends Component {
     this.getMeasurementName = this.getMeasurementName.bind(this);
     this.close = this.close.bind(this);
   }
-  componentDidMount() {
-    this.props.getProducts();
-    this.props.getMeasurements();
-  }
 
   getMeasurementName(key) {
     if (this.props.measurements.length > 1) {
@@ -93,9 +89,7 @@ ProductsPage.propTypes = {
       grams: PropTypes.number
     }).isRequired).isRequired,
   measurements: PropTypes.arrayOf(PropTypes.shape()),
-  getProducts: PropTypes.func.isRequired,
-  saveProduct: PropTypes.func.isRequired,
-  getMeasurements: PropTypes.func.isRequired
+  saveProduct: PropTypes.func.isRequired
   /* eslint-enable */
 };
 
@@ -107,8 +101,6 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  getProducts: () => dispatch(actions.getProducts()),
-  getMeasurements: () => dispatch(actions.getMeasurements()),
   saveProduct: (data) => {
     dispatch(actions.saveProduct(data));
   }

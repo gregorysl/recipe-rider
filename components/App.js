@@ -23,9 +23,6 @@ class App extends Component {
     this.handleClick = this.handleClick.bind(this);
     this.close = this.close.bind(this);
   }
-  componentDidMount() {
-    this.props.getRecipes();
-  }
   close() {
     this.setState({ recipe: null, showRecipePanel: false });
   }
@@ -81,8 +78,7 @@ App.propTypes = {
     }).isRequired).isRequired,
   products: PropTypes.arrayOf(PropTypes.shape()).isRequired,
   measurements: PropTypes.arrayOf(PropTypes.shape()).isRequired,
-  saveRecipe: PropTypes.func.isRequired,
-  getRecipes: PropTypes.func.isRequired
+  saveRecipe: PropTypes.func.isRequired
   /* eslint-enable */
 };
 const mapStateToProps = state => ({
@@ -92,7 +88,6 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  getRecipes: () => dispatch(actions.getRecipes()),
   saveRecipe: (data) => {
     dispatch(actions.addRecipe(data));
   }
