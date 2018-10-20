@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Card } from 'antd';
+import { Button, Card, Col, Row } from 'antd';
 import PropTypes from 'prop-types';
 import AddRecipe from './AddRecipe';
 import * as actions from '../actions/actions';
@@ -13,8 +13,24 @@ function findProductName(data, key) {
   return product.name;
 }
 class App extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      recipe: null,
+      showRecipePanel: false
+    };
+    this.handleClick = this.handleClick.bind(this);
+    this.close = this.close.bind(this);
+  }
   componentDidMount() {
     this.props.getRecipes();
+  }
+  close() {
+    this.setState({ recipe: null, showRecipePanel: false });
+  }
+  handleClick(recipe) {
+    this.setState({ recipe, showRecipePanel: true });
   }
   render() {
     const data = this.props.recipes.map((x) => {
@@ -25,17 +41,32 @@ class App extends Component {
         </p>
       ));
       return (
-        <Card key={x.key} title={x.name} style={{ width: 300 }}>
-          {products}
-          <p>{x.details}</p>
-        </Card>
+        <Col key={x.key} xs={24} sm={12} md={8} lg={6} xl={6}>
+          <Card
+            key={x.key}
+            title={x.name}
+            extra={<Button onClick={() => this.handleClick(x)}>Edytuj</Button>}
+          >
+            {products}
+            <p>{x.details}</p>
+          </Card>
+        </Col>
       );
     });
     return (
       <React.Fragment>
-        <h1>Recipes</h1>
-        {data}
-        <AddRecipe />
+        <h1>Przepisy</h1>
+        <Button onClick={() => this.handleClick(null)}>Dodaj</Button>
+
+        {this.state.showRecipePanel && (
+          <AddRecipe
+            recipe={this.state.recipe}
+            close={this.close}
+            measurements={this.props.measurements}
+            saveRecipe={this.props.saveRecipe}
+          />
+        )}
+        <Row>{data}</Row>
       </React.Fragment>
     );
   }
@@ -50,6 +81,7 @@ App.propTypes = {
     }).isRequired).isRequired,
   products: PropTypes.arrayOf(PropTypes.shape()).isRequired,
   measurements: PropTypes.arrayOf(PropTypes.shape()).isRequired,
+  saveRecipe: PropTypes.func.isRequired,
   getRecipes: PropTypes.func.isRequired
   /* eslint-enable */
 };
@@ -60,7 +92,10 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  getRecipes: () => dispatch(actions.getRecipes())
+  getRecipes: () => dispatch(actions.getRecipes()),
+  saveRecipe: (data) => {
+    dispatch(actions.addRecipe(data));
+  }
 });
 
 export default connect(
