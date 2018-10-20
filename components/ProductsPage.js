@@ -1,10 +1,17 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Button, Table } from 'antd';
+import { Button, Card, Col, Row } from 'antd';
 import PropTypes from 'prop-types';
 import Product from './Product';
 import * as actions from '../actions/actions';
 
+function findProductName(data, key) {
+  const product = data.filter(x => x.key === key)[0];
+  if (!product) {
+    return key;
+  }
+  return product.name;
+}
 class ProductsPage extends Component {
   constructor(props) {
     super(props);
@@ -21,58 +28,7 @@ class ProductsPage extends Component {
     this.props.getProducts();
     this.props.getMeasurements();
   }
-  getColumns() {
-    return [
-      {
-        title: 'Nazwa',
-        dataIndex: 'name',
-        key: 'name'
-      },
-      {
-        title: 'Miara',
-        dataIndex: 'measurement',
-        key: 'measurement',
-        render: key => this.getMeasurementName(key)
-      },
-      {
-        title: 'Cena',
-        dataIndex: 'unitPrice',
-        key: 'unitPrice'
-      },
-      {
-        title: 'Gramy',
-        dataIndex: 'grams',
-        key: 'grams'
-      },
-      {
-        title: 'Sztuka',
-        dataIndex: 'piece',
-        key: 'piece'
-      },
-      {
-        title: 'Łyżka',
-        dataIndex: 'bigSpoon',
-        key: 'bigSpoon'
-      },
-      {
-        title: 'Łyżeczka',
-        dataIndex: 'smallSpoon',
-        key: 'smallSpoon'
-      },
-      {
-        title: 'Szklanka',
-        dataIndex: 'glass',
-        key: 'glass'
-      },
-      {
-        title: 'Akcje',
-        key: 'action',
-        render: (text, product) => (
-          <Button onClick={() => this.handleClick(product)}>Edytuj</Button>
-        )
-      }
-    ];
-  }
+
   getMeasurementName(key) {
     if (this.props.measurements.length > 1) {
       return this.props.measurements.find(x => x.key === key).name;
@@ -86,6 +42,20 @@ class ProductsPage extends Component {
     this.setState({ product, showProductPanel: true });
   }
   render() {
+    const cards = this.props.products.map((x) => {
+      const measurement = findProductName(this.props.measurements, x.measurement);
+      return (
+        <Col key={x.key} xs={24} sm={12} md={8} lg={6} xl={6}>
+          <Card title={`${x.name} ${x.unitPrice}zł`} extra={<Button onClick={() => this.handleClick(x)}>Edytuj</Button>}>
+            <p><b>Miara</b>: {measurement}</p>
+            {x.piece && <p><b>Sztuk</b>: {x.piece}</p>}
+            {x.grams && <p><b>Gram</b>: {x.grams}g</p>}
+            {x.smallSpoon && <p><b>Łyżeczka</b>: {x.smallSpoon}g</p>}
+            {x.bigSpoon && <p><b>Łyżka</b>: {x.bigSpoon}g</p>}
+            {x.glass && <p><b>Szklanka</b>: {x.glass}g</p>}
+          </Card>
+        </Col>);
+    });
     return (
       <React.Fragment>
         <h1>Produkty</h1>
@@ -98,11 +68,9 @@ class ProductsPage extends Component {
             saveProduct={this.props.saveProduct}
           />
         )}
-        <Table
-          columns={this.getColumns()}
-          dataSource={this.props.products}
-          pagination={false}
-        />
+        <Row>
+          {cards}
+        </Row>
       </React.Fragment>
     );
   }
