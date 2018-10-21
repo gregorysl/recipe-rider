@@ -5,6 +5,8 @@ import PropTypes from 'prop-types';
 import Product from './Product';
 import * as actions from '../actions/actions';
 
+const scrollToElement = require('scroll-to-element');
+
 function findProductName(data, key) {
   if (data.length > 1) {
     const product = data.filter(x => x.key === key)[0];
@@ -39,7 +41,9 @@ class ProductsPage extends Component {
   }
   handleClick(product) {
     this.setState({ product, showProductPanel: true });
+    scrollToElement('.product-panel');
   }
+
   render() {
     const cards = this.props.products.map((x) => {
       const measurement = findProductName(this.props.measurements, x.measurement);
@@ -57,7 +61,7 @@ class ProductsPage extends Component {
     });
     return (
       <React.Fragment>
-        <h1>Produkty</h1>
+        <h1 className="product-panel">Produkty</h1>
         <Button onClick={() => this.handleClick(null)}>Dodaj</Button>
         {this.state.showProductPanel && (
           <Product

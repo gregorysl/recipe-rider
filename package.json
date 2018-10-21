@@ -58,6 +58,7 @@
     "react-router-dom": "^4.3.1",
     "redux": "^3.7.2",
     "redux-saga": "^0.16.0",
+    "scroll-to-element": "^2.0.2",
     "webpack-bundle-analyzer": "^2.11.1"
   },
   "devDependencies": {
