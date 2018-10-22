@@ -1,6 +1,12 @@
 import { combineReducers } from 'redux';
 import * as types from '../constants/actionTypes';
 
+function compare(a, b) {
+  if (a.name < b.name) { return -1; }
+  if (a.name > b.name) { return 1; }
+  return 0;
+}
+
 function recipeReducer(state = [], action) {
   switch (action.type) {
     case types.GET_RECIPE_SUCCESS:
@@ -12,7 +18,7 @@ function recipeReducer(state = [], action) {
 function productReducer(state = [], action) {
   switch (action.type) {
     case types.GET_PRODUCT_SUCCESS:
-      return [...Object.values(action.data)];
+      return [...Object.values(action.data)].sort(compare);
     default:
       return state;
   }
