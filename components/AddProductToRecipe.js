@@ -60,19 +60,7 @@ class AddProductToRecipe extends Component {
     const data = this.props.products.map(d => (
       <Option key={d.key}>{d.name}</Option>
     ));
-    const selProd = this.props.products.filter(x => x.key === state.product)[0];
-    let value = '';
-    if (this.props.measurements.length > 1 && selProd && state.amount) {
-      const selMeasurement = this.props.measurements.filter(x => x.key === state.measurement)[0];
-      if (selMeasurement.main) {
-        value = (state.amount * selProd.unitPrice) / selProd[state.measurement];
-      } else {
-        const main = this.props.measurements.filter(x => x.key === selMeasurement.parent)[0];
-        value =
-          (state.amount * selProd[state.measurement] * selProd.unitPrice) /
-          selProd[main.key];
-      }
-    }
+
     return (
       <span>
         <Select
@@ -101,7 +89,6 @@ class AddProductToRecipe extends Component {
           onChange={this.handleMeasurementChange}
           style={{ width: '30%', marginRight: '1%' }}
         />
-        <h3>{value}</h3>
       </span>
     );
   }
