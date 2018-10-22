@@ -5,6 +5,8 @@ import PropTypes from 'prop-types';
 import AddRecipe from './AddRecipe';
 import * as actions from '../actions/actions';
 
+const currencyFormatter = require('currency-formatter');
+
 function findProductName(data, key) {
   const product = data.filter(x => x.key === key)[0];
   if (!product) {
@@ -31,6 +33,29 @@ class App extends Component {
   }
   render() {
     const data = this.props.recipes.map((x) => {
+      let vaaa = 0;
+      x.products.forEach((element) => {
+        if (this.props.measurements.length > 1 && this.props.products.length > 1) {
+          const selProd = this.props.products.filter(p => p.key === element.product)[0];
+          let value = 0;
+          if (this.props.measurements.length > 1 && selProd && element.amount) {
+            const selMeasurement = this.props.measurements
+              .filter(a => a.key === element.measurement)[0];
+            if (selMeasurement.main) {
+              value = (element.amount * selProd.unitPrice) / selProd[element.measurement];
+            } else {
+              const main = this.props.measurements.filter(a => a.key === selMeasurement.parent)[0];
+              value =
+            (element.amount * selProd[element.measurement] * selProd.unitPrice) /
+            selProd[main.key];
+            }
+            vaaa += value;
+          }
+        }
+      });
+      vaaa = currencyFormatter.format(vaaa, { code: 'PLN' });
+
+
       const products = x.products.map(p => (
         <p key={p.product}>
           {p.amount} {findProductName(this.props.measurements, p.measurement)}{' '}
@@ -41,7 +66,7 @@ class App extends Component {
         <Col key={x.key} xs={24} sm={12} md={8} lg={6} xl={6}>
           <Card
             key={x.key}
-            title={x.name}
+            title={`${x.name} - cena: ${vaaa}`}
             extra={<Button onClick={() => this.handleClick(x)}>Edytuj</Button>}
           >
             {products}
