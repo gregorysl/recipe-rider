@@ -1,5 +1,4 @@
 import 'antd/dist/antd.less';
-import 'babel-polyfill';
 import React from 'react';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';
@@ -24,7 +23,7 @@ const Page = (
             <Link to="/">Przepisy</Link>
           </Item>
           <Item key="products">
-            <Link to="/products">Products</Link>
+            <Link to="/products">Produkty</Link>
           </Item>
         </Menu>
         <Content>
