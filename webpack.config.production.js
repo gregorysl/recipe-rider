@@ -7,7 +7,7 @@ const CompressionPlugin = require('compression-webpack-plugin');
 const config = {
   devtool: 'source-map',
 
-  entry: ['./index.js', './styles/style.less'],
+  entry: ['@babel/polyfill', './index.js', './styles/style.less'],
 
   output: {
     filename: 'bundle.js',
