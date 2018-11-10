@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { Input, Icon, Form, Button } from "antd";
 import AddProductToRecipe from "./AddProductToRecipe";
-import { addRecipe } from "../actions/actions";
 import "antd/lib/input/style/css";
 import "antd/lib/icon/style/css";
 import "antd/lib/form/style/css";
@@ -21,7 +20,7 @@ function filterByKey(data, key) {
 }
 const FormItem = Form.Item;
 let uuid = 0;
-class AddRecipe extends Component {
+class Recipe extends Component {
   constructor(props) {
     super(props);
     const pk = this.props.recipe.productKeys;
@@ -182,37 +181,20 @@ const mapStateToProps = state => ({
   products: state.product,
   measurements: state.measurements
 });
-const mapDispatchToProps = dispatch => ({
-  addRecipe: data => dispatch(addRecipe(data))
-});
-AddRecipe.defaultProps = { recipe: {}, note: "" };
+Recipe.defaultProps = { recipe: {} };
 
-AddRecipe.propTypes = {
+Recipe.propTypes = {
   recipe: PropTypes.shape(),
   saveRecipe: PropTypes.func.isRequired,
   close: PropTypes.func.isRequired,
-  note: PropTypes.string,
-  addRecipe: PropTypes.func.isRequired,
-  products: PropTypes.arrayOf(PropTypes.object).isRequired,
   form: PropTypes.shape({
-    getFieldsValue: PropTypes.func,
-    getFieldValue: PropTypes.func,
-    setFieldsValue: PropTypes.func,
-    setFields: PropTypes.func,
     validateFields: PropTypes.func,
-    validateFieldsAndScroll: PropTypes.func,
-    getFieldError: PropTypes.func,
-    getFieldsError: PropTypes.func,
-    isFieldValidating: PropTypes.func,
-    isFieldTouched: PropTypes.func,
-    isFieldsTouched: PropTypes.func,
-    resetFields: PropTypes.func,
     getFieldDecorator: PropTypes.func
   }).isRequired,
   measurements: PropTypes.arrayOf(PropTypes.shape()).isRequired
 };
 
-const WrappedAddRecipe = Form.create({
+const WrappedRecipe = Form.create({
   mapPropsToFields(props) {
     const form = {};
     if (props.recipe != null) {
@@ -227,8 +209,8 @@ const WrappedAddRecipe = Form.create({
     }
     return form;
   }
-})(AddRecipe);
+})(Recipe);
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
-)(WrappedAddRecipe);
+  null
+)(WrappedRecipe);

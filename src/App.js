@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Button, Card, Col, Row } from "antd";
 import PropTypes from "prop-types";
-import AddRecipe from "./components/AddRecipe";
+import Recipe from "./components/Recipe";
 import * as actions from "./actions/actions";
 import "antd/lib/button/style/css";
 import "antd/lib/card/style/css";
@@ -61,10 +61,9 @@ class App extends Component {
         <Button onClick={() => this.handleClick()}>Dodaj</Button>
 
         {this.state.showRecipePanel && (
-          <AddRecipe
+          <Recipe
             recipe={this.state.recipe}
             close={this.close}
-            measurements={measurements}
             saveRecipe={this.props.saveRecipe}
           />
         )}
