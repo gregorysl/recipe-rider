@@ -13,7 +13,7 @@ class AddProductToRecipe extends Component {
 
     const value = props.value || {};
     this.state = { ...value };
-    this.handleNameChange = this.handleNameChange.bind(this);
+    this.handleAmountChange = this.handleAmountChange.bind(this);
     this.handleProductChange = this.handleProductChange.bind(this);
     this.handleMeasurementChange = this.handleMeasurementChange.bind(this);
   }
@@ -25,30 +25,19 @@ class AddProductToRecipe extends Component {
     }
   }
 
-  handleNameChange = e => {
-    if (!("value" in this.props)) {
-      this.setState({ amount: e.target.value });
-    }
+  handleProductChange = product => {
+    const { measurement } = this.props.products.filter(
+      x => x.key === product
+    )[0];
+
+    this.triggerChange({ product, measurement });
+  };
+
+  handleAmountChange = e => {
     this.triggerChange({ amount: e.target.value });
   };
 
-  handleProductChange = product => {
-    if (!("value" in this.props)) {
-      this.setState({ product });
-    }
-    const { measurement } = this.props.products.filter(
-      x => `${x.key}` === product
-    )[0];
-    this.setState({ measurement });
-    this.triggerChange({ measurement });
-
-    this.triggerChange({ product });
-  };
   handleMeasurementChange = measurement => {
-    if (!("value" in this.props)) {
-      this.setState({ measurement });
-    }
-
     this.triggerChange({ measurement });
   };
 
@@ -81,19 +70,23 @@ class AddProductToRecipe extends Component {
         >
           {availableOptions}
         </Select>
-        <Input
-          type="number"
-          placeholder="Wartość"
-          value={state.amount}
-          onChange={this.handleNameChange}
-          style={{ width: "20%", marginRight: "2%" }}
-        />
-        <MeasurementUnit
-          data={this.props.measurements}
-          defaultValue={state.measurement}
-          onChange={this.handleMeasurementChange}
-          style={{ width: "30%", marginRight: "1%" }}
-        />
+        {state.product && (
+          <Input
+            type="number"
+            placeholder="Wartość"
+            value={state.amount}
+            onChange={this.handleAmountChange}
+            style={{ width: "20%", marginRight: "2%" }}
+          />
+        )}
+        {state.product && (
+          <MeasurementUnit
+            data={this.props.measurements}
+            defaultValue={state.measurement}
+            onChange={this.handleMeasurementChange}
+            style={{ width: "30%", marginRight: "1%" }}
+          />
+        )}
       </span>
     );
   }
