@@ -7,7 +7,6 @@ import store from "./store";
 import Main from "./components/Main";
 import App from "./App";
 import ProductsPage from "./components/ProductsPage";
-import "./index.css";
 import "./styles/style.sass";
 import "antd/lib/layout/style/css";
 import "antd/lib/menu/style/css";
