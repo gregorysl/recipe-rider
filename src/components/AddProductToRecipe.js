@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { Input, Select } from "antd";
+import { Input, Select, Row, Col } from "antd";
 import MeasurementUnit from "./MeasurementUnit";
 import "antd/lib/input/style/css";
 import "antd/lib/select/style/css";
@@ -56,38 +56,41 @@ class AddProductToRecipe extends Component {
       .filter(x => x.key === state.product || currentKeys.indexOf(x.key) === -1)
       .map(d => <Option key={d.key}>{d.name}</Option>);
     return (
-      <span>
-        <Select
-          showSearch
-          value={state.product}
-          placeholder="Składnik"
-          optionFilterProp="name"
-          onChange={this.handleProductChange}
-          filterOption={(input, option) =>
-            option.props.children.indexOf(input) >= 0
-          }
-          style={{ width: "40%", marginRight: "2%" }}
-        >
-          {availableOptions}
-        </Select>
+      <Row>
+        <Col sm={24} md={8}>
+          <Select
+            showSearch
+            value={state.product}
+            placeholder="Składnik"
+            optionFilterProp="name"
+            onChange={this.handleProductChange}
+            filterOption={(input, option) =>
+              option.props.children.indexOf(input) >= 0
+            }
+          >
+            {availableOptions}
+          </Select>
+        </Col>
         {state.product && (
-          <Input
-            type="number"
-            placeholder="Wartość"
-            value={state.amount}
-            onChange={this.handleAmountChange}
-            style={{ width: "20%", marginRight: "2%" }}
-          />
+          <Col sm={24} md={8}>
+            <Input
+              type="number"
+              placeholder="Wartość"
+              value={state.amount}
+              onChange={this.handleAmountChange}
+            />
+          </Col>
         )}
         {state.product && (
-          <MeasurementUnit
-            data={this.props.measurements}
-            defaultValue={state.measurement}
-            onChange={this.handleMeasurementChange}
-            style={{ width: "30%", marginRight: "1%" }}
-          />
+          <Col sm={24} md={8}>
+            <MeasurementUnit
+              data={this.props.measurements}
+              defaultValue={state.measurement}
+              onChange={this.handleMeasurementChange}
+            />
+          </Col>
         )}
-      </span>
+      </Row>
     );
   }
 }
