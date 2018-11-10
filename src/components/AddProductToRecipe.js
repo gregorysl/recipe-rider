@@ -1,7 +1,9 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { Input, Select } from 'antd';
-import MeasurementUnit from './MeasurementUnit';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { Input, Select } from "antd";
+import MeasurementUnit from "./MeasurementUnit";
+import "antd/lib/input/style/css";
+import "antd/lib/select/style/css";
 
 const { Option } = Select;
 
@@ -17,38 +19,40 @@ class AddProductToRecipe extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if ('value' in nextProps) {
+    if ("value" in nextProps) {
       const { value } = nextProps;
       this.setState(value);
     }
   }
 
-  handleNameChange = (e) => {
-    if (!('value' in this.props)) {
+  handleNameChange = e => {
+    if (!("value" in this.props)) {
       this.setState({ amount: e.target.value });
     }
     this.triggerChange({ amount: e.target.value });
   };
 
-  handleProductChange = (product) => {
-    if (!('value' in this.props)) {
+  handleProductChange = product => {
+    if (!("value" in this.props)) {
       this.setState({ product });
     }
-    const { measurement } = this.props.products.filter(x => `${x.key}` === product)[0];
+    const { measurement } = this.props.products.filter(
+      x => `${x.key}` === product
+    )[0];
     this.setState({ measurement });
     this.triggerChange({ measurement });
 
     this.triggerChange({ product });
   };
-  handleMeasurementChange = (measurement) => {
-    if (!('value' in this.props)) {
+  handleMeasurementChange = measurement => {
+    if (!("value" in this.props)) {
       this.setState({ measurement });
     }
 
     this.triggerChange({ measurement });
   };
 
-  triggerChange = (changedValue) => {
+  triggerChange = changedValue => {
     const { onChange } = this.props;
     if (onChange) {
       onChange(Object.assign({}, this.state, changedValue));
@@ -72,7 +76,7 @@ class AddProductToRecipe extends Component {
           filterOption={(input, option) =>
             option.props.children.indexOf(input) >= 0
           }
-          style={{ width: '40%', marginRight: '2%' }}
+          style={{ width: "40%", marginRight: "2%" }}
         >
           {data}
         </Select>
@@ -81,13 +85,13 @@ class AddProductToRecipe extends Component {
           placeholder="Wartość"
           value={state.amount}
           onChange={this.handleNameChange}
-          style={{ width: '20%', marginRight: '2%' }}
+          style={{ width: "20%", marginRight: "2%" }}
         />
         <MeasurementUnit
           data={this.props.measurements}
           defaultValue={state.measurement}
           onChange={this.handleMeasurementChange}
-          style={{ width: '30%', marginRight: '1%' }}
+          style={{ width: "30%", marginRight: "1%" }}
         />
       </span>
     );

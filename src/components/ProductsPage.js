@@ -1,11 +1,15 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { Button, Card, Col, Row } from 'antd';
-import PropTypes from 'prop-types';
-import Product from './Product';
-import * as actions from '../actions/actions';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { Button, Card, Col, Row } from "antd";
+import PropTypes from "prop-types";
+import Product from "./Product";
+import * as actions from "../actions/actions";
+import "antd/lib/button/style/css";
+import "antd/lib/card/style/css";
+import "antd/lib/col/style/css";
+import "antd/lib/row/style/css";
 
-const scrollToElement = require('scroll-to-element');
+const scrollToElement = require("scroll-to-element");
 
 function findProductName(data, key) {
   if (data.length > 1) {
@@ -41,23 +45,52 @@ class ProductsPage extends Component {
   }
   handleClick(product) {
     this.setState({ product, showProductPanel: true });
-    scrollToElement('.product-panel');
+    scrollToElement(".product-panel");
   }
 
   render() {
-    const cards = this.props.products.map((x) => {
-      const measurement = findProductName(this.props.measurements, x.measurement);
+    const cards = this.props.products.map(x => {
+      const measurement = findProductName(
+        this.props.measurements,
+        x.measurement
+      );
       return (
         <Col key={x.key} xs={24} sm={12} md={8} lg={6} xl={6}>
-          <Card title={`${x.name} ${x.unitPrice}zł`} extra={<Button onClick={() => this.handleClick(x)}>Edytuj</Button>}>
-            <p><b>Miara</b>: {measurement}</p>
-            {x.piece && <p><b>Sztuk</b>: {x.piece}</p>}
-            {x.grams && <p><b>Gram</b>: {x.grams}g</p>}
-            {x.smallSpoon && <p><b>Łyżeczka</b>: {x.smallSpoon}g</p>}
-            {x.bigSpoon && <p><b>Łyżka</b>: {x.bigSpoon}g</p>}
-            {x.glass && <p><b>Szklanka</b>: {x.glass}g</p>}
+          <Card
+            title={`${x.name} ${x.unitPrice}zł`}
+            extra={<Button onClick={() => this.handleClick(x)}>Edytuj</Button>}
+          >
+            <p>
+              <b>Miara</b>: {measurement}
+            </p>
+            {x.piece && (
+              <p>
+                <b>Sztuk</b>: {x.piece}
+              </p>
+            )}
+            {x.grams && (
+              <p>
+                <b>Gram</b>: {x.grams}g
+              </p>
+            )}
+            {x.smallSpoon && (
+              <p>
+                <b>Łyżeczka</b>: {x.smallSpoon}g
+              </p>
+            )}
+            {x.bigSpoon && (
+              <p>
+                <b>Łyżka</b>: {x.bigSpoon}g
+              </p>
+            )}
+            {x.glass && (
+              <p>
+                <b>Szklanka</b>: {x.glass}g
+              </p>
+            )}
           </Card>
-        </Col>);
+        </Col>
+      );
     });
     return (
       <React.Fragment>
@@ -71,16 +104,15 @@ class ProductsPage extends Component {
             saveProduct={this.props.saveProduct}
           />
         )}
-        <Row>
-          {cards}
-        </Row>
+        <Row>{cards}</Row>
       </React.Fragment>
     );
   }
 }
 ProductsPage.propTypes = {
   /* eslint-disable indent */
-  products: PropTypes.arrayOf(PropTypes.shape({
+  products: PropTypes.arrayOf(
+    PropTypes.shape({
       key: PropTypes.string.isRequired,
       name: PropTypes.string.isRequired,
       measurement: PropTypes.string.isRequired,
@@ -91,7 +123,8 @@ ProductsPage.propTypes = {
       glass: PropTypes.number,
       piece: PropTypes.number,
       grams: PropTypes.number
-    }).isRequired).isRequired,
+    }).isRequired
+  ).isRequired,
   measurements: PropTypes.arrayOf(PropTypes.shape()),
   saveProduct: PropTypes.func.isRequired
   /* eslint-enable */
@@ -105,7 +138,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  saveProduct: (data) => {
+  saveProduct: data => {
     dispatch(actions.saveProduct(data));
   }
 });

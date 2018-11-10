@@ -1,7 +1,12 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { Input, Form, Button, InputNumber, Switch } from 'antd';
-import MeasurementUnit from './MeasurementUnit';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { Input, Form, Button, InputNumber, Switch } from "antd";
+import MeasurementUnit from "./MeasurementUnit";
+import "antd/lib/input/style/css";
+import "antd/lib/form/style/css";
+import "antd/lib/button/style/css";
+import "antd/lib/input-number/style/css";
+import "antd/lib/switch/style/css";
 
 const FormItem = Form.Item;
 const formItemLayout = {
@@ -17,24 +22,31 @@ const formItemLayout = {
 const mapFilteredNumberFields = (list, filter, decorator) =>
   list.filter(filter).map(item => (
     <FormItem key={item.key} label={item.name} {...formItemLayout}>
-      {decorator(item.key, {})(<InputNumber style={{ width: '100%' }} step={1} precision={0} placeholder={item.name} />)}
+      {decorator(item.key, {})(
+        <InputNumber
+          style={{ width: "100%" }}
+          step={1}
+          precision={0}
+          placeholder={item.name}
+        />
+      )}
     </FormItem>
   ));
 
-const defaults = 'grams';
+const defaults = "grams";
 function hasErrors(fieldsError) {
   return Object.keys(fieldsError).some(field => fieldsError[field]);
 }
 
 class Product extends Component {
-  handleSubmit = (e) => {
+  handleSubmit = e => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        console.log('Received values of form: ', values);
+        console.log("Received values of form: ", values);
 
-        Object.keys(values).forEach((key) => {
-          if (typeof values[key] === 'undefined') {
+        Object.keys(values).forEach(key => {
+          if (typeof values[key] === "undefined") {
             values[key] = null;
           }
         });
@@ -51,8 +63,8 @@ class Product extends Component {
       form: { getFieldDecorator, getFieldsError, getFieldValue },
       measurements
     } = this.props;
-    const title = product ? 'Edytuj' : 'Dodaj';
-    const gfv = getFieldValue('measurement');
+    const title = product ? "Edytuj" : "Dodaj";
+    const gfv = getFieldValue("measurement");
     const selectedValue = gfv || defaults;
     let main = null;
     let additional = null;
@@ -70,41 +82,54 @@ class Product extends Component {
         getFieldDecorator
       );
     }
-    getFieldDecorator('key');
+    getFieldDecorator("key");
     return (
-      <Form className="ant-advanced-search-form" layout="vertical" onSubmit={this.handleSubmit}>
+      <Form
+        className="ant-advanced-search-form"
+        layout="vertical"
+        onSubmit={this.handleSubmit}
+      >
         <h1>{title} produkt</h1>
         <FormItem label="Nazwa" {...formItemLayout}>
-          {getFieldDecorator('name', {
-                rules: [{ required: true, message: 'Podaj nazwę produktu' }]
-              })(<Input name="name" />)}
+          {getFieldDecorator("name", {
+            rules: [{ required: true, message: "Podaj nazwę produktu" }]
+          })(<Input name="name" />)}
         </FormItem>
         <FormItem label="Domyślna miara" {...formItemLayout}>
           {/* eslint-disable react/jsx-indent */
-              getFieldDecorator('measurement', {
-                initialValue: defaults,
-                valuePropName: 'defaultValue',
-                rules: [{ required: true, message: 'Podaj domyślną miarę' }]
-              })(<MeasurementUnit data={measurements} />)
-              /* eslint-enable */
-              }
+          getFieldDecorator("measurement", {
+            initialValue: defaults,
+            valuePropName: "defaultValue",
+            rules: [{ required: true, message: "Podaj domyślną miarę" }]
+          })(<MeasurementUnit data={measurements} />)
+          /* eslint-enable */
+          }
         </FormItem>
         <FormItem label="Cena Jednostkowa" {...formItemLayout}>
-          {getFieldDecorator('unitPrice', {
-                rules: [
-                  {
-                    required: true,
-                    message: 'Podaj wartość dla miary domyślnej'
-                  }
-                ]
-              })(<InputNumber style={{ width: '100%' }} step={0.01} precision={2} placeholder="zł" />)}
+          {getFieldDecorator("unitPrice", {
+            rules: [
+              {
+                required: true,
+                message: "Podaj wartość dla miary domyślnej"
+              }
+            ]
+          })(
+            <InputNumber
+              style={{ width: "100%" }}
+              step={0.01}
+              precision={2}
+              placeholder="zł"
+            />
+          )}
         </FormItem>
         {main}
         {product && (
           <FormItem label="Aktywny" {...formItemLayout}>
-            {getFieldDecorator('active', { valuePropName: 'checked' })(<Switch />)}
+            {getFieldDecorator("active", { valuePropName: "checked" })(
+              <Switch />
+            )}
           </FormItem>
-          )}
+        )}
 
         {additional}
 

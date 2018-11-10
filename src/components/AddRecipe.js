@@ -1,9 +1,13 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import { Input, Icon, Form, Button } from 'antd';
-import AddProductToRecipe from './AddProductToRecipe';
-import { addRecipe } from '../actions/actions';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+import { Input, Icon, Form, Button } from "antd";
+import AddProductToRecipe from "./AddProductToRecipe";
+import { addRecipe } from "../actions/actions";
+import "antd/lib/input/style/css";
+import "antd/lib/icon/style/css";
+import "antd/lib/form/style/css";
+import "antd/lib/button/style/css";
 
 const { TextArea } = Input;
 
@@ -46,7 +50,7 @@ class AddRecipe extends Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        console.log('Received values of form: ', values);
+        console.log("Received values of form: ", values);
         values.productKeys = this.state.productKeys;
         this.props.saveRecipe(values);
         this.props.close();
@@ -55,11 +59,11 @@ class AddRecipe extends Component {
   }
 
   checkProduct = (rule, value, callback) => {
-    if (value.name !== '' && value.product !== '') {
+    if (value.name !== "" && value.product !== "") {
       callback();
       return;
     }
-    callback('Price must greater than zero!');
+    callback("Price must greater than zero!");
   };
 
   render() {
@@ -74,11 +78,8 @@ class AddRecipe extends Component {
         sm: { span: 20 }
       }
     };
-    const {
-      recipe,
-      measurements
-    } = this.props;
-    const title = recipe.key ? 'Edytuj' : 'Dodaj';
+    const { recipe, measurements } = this.props;
+    const title = recipe.key ? "Edytuj" : "Dodaj";
     const { productKeys } = this.state;
     const formItems = productKeys.map(k => (
       <FormItem {...formItemLayout} required={false} key={k}>
@@ -103,15 +104,15 @@ class AddRecipe extends Component {
         ) : null}
       </FormItem>
     ));
-    getFieldDecorator('key');
+    getFieldDecorator("key");
     return (
       <div>
         <h1>{title} przepis</h1>
         <Form onSubmit={this.handleSubmit}>
           <FormItem label="Nazwa" {...formItemLayout}>
-            {getFieldDecorator('name', {
+            {getFieldDecorator("name", {
               rules: [
-                { required: true, message: 'Tytuł przepisu jest wymagany!' }
+                { required: true, message: "Tytuł przepisu jest wymagany!" }
               ]
             })(<Input placeholder="Nazwa" type="text" />)}
           </FormItem>
@@ -122,9 +123,9 @@ class AddRecipe extends Component {
           </FormItem>
           {formItems}
           <FormItem label="Kroki" {...formItemLayout}>
-            {getFieldDecorator('details', {
+            {getFieldDecorator("details", {
               rules: [
-                { required: true, message: 'Kroki przepisu są wymagane!' }
+                { required: true, message: "Kroki przepisu są wymagane!" }
               ]
             })(<TextArea rows={5} />)}
           </FormItem>
@@ -147,7 +148,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   addRecipe: data => dispatch(addRecipe(data))
 });
-AddRecipe.defaultProps = { recipe: {}, note: '' };
+AddRecipe.defaultProps = { recipe: {}, note: "" };
 
 AddRecipe.propTypes = {
   recipe: PropTypes.shape(),
@@ -179,7 +180,7 @@ const WrappedAddRecipe = Form.create({
     const form = {};
     if (props.recipe != null) {
       Object.entries(props.recipe).forEach(([k, v]) => {
-        if (k !== 'products') {
+        if (k !== "products") {
           form[k] = Form.createFormField({ value: v });
         }
       });

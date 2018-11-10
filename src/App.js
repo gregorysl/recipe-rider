@@ -1,11 +1,15 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { Button, Card, Col, Row } from 'antd';
-import PropTypes from 'prop-types';
-import AddRecipe from './AddRecipe';
-import * as actions from '../actions/actions';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { Button, Card, Col, Row } from "antd";
+import PropTypes from "prop-types";
+import AddRecipe from "./components/AddRecipe";
+import * as actions from "./actions/actions";
+import "antd/lib/button/style/css";
+import "antd/lib/card/style/css";
+import "antd/lib/col/style/css";
+import "antd/lib/row/style/css";
 
-const currencyFormatter = require('currency-formatter');
+const currencyFormatter = require("currency-formatter");
 
 function findProductName(data, key) {
   const product = data.filter(x => x.key === key)[0];
@@ -32,33 +36,44 @@ class App extends Component {
     this.setState({ recipe, showRecipePanel: true });
   }
   render() {
-    const data = this.props.recipes.map((x) => {
+    const data = this.props.recipes.map(x => {
       let vaaa = 0;
-      x.products.forEach((element) => {
-        if (this.props.measurements.length > 1 && this.props.products.length > 1) {
-          const selProd = this.props.products.filter(p => p.key === element.product)[0];
+      x.products.forEach(element => {
+        if (
+          this.props.measurements.length > 1 &&
+          this.props.products.length > 1
+        ) {
+          const selProd = this.props.products.filter(
+            p => p.key === element.product
+          )[0];
           let value = 0;
           if (this.props.measurements.length > 1 && selProd && element.amount) {
-            const selMeasurement = this.props.measurements
-              .filter(a => a.key === element.measurement)[0];
+            const selMeasurement = this.props.measurements.filter(
+              a => a.key === element.measurement
+            )[0];
             if (selMeasurement.main) {
-              value = (element.amount * selProd.unitPrice) / selProd[element.measurement];
-            } else {
-              const main = this.props.measurements.filter(a => a.key === selMeasurement.parent)[0];
               value =
-            (element.amount * selProd[element.measurement] * selProd.unitPrice) /
-            selProd[main.key];
+                (element.amount * selProd.unitPrice) /
+                selProd[element.measurement];
+            } else {
+              const main = this.props.measurements.filter(
+                a => a.key === selMeasurement.parent
+              )[0];
+              value =
+                (element.amount *
+                  selProd[element.measurement] *
+                  selProd.unitPrice) /
+                selProd[main.key];
             }
             vaaa += value;
           }
         }
       });
-      vaaa = currencyFormatter.format(vaaa, { code: 'PLN' });
-
+      vaaa = currencyFormatter.format(vaaa, { code: "PLN" });
 
       const products = x.products.map(p => (
         <p key={p.product}>
-          {p.amount} {findProductName(this.props.measurements, p.measurement)}{' '}
+          {p.amount} {findProductName(this.props.measurements, p.measurement)}{" "}
           {findProductName(this.props.products, p.product)}
         </p>
       ));
@@ -96,11 +111,13 @@ class App extends Component {
 
 /* eslint-disable indent */
 App.propTypes = {
-  recipes: PropTypes.arrayOf(PropTypes.shape({
+  recipes: PropTypes.arrayOf(
+    PropTypes.shape({
       key: PropTypes.string.isRequired,
       details: PropTypes.string.isRequired,
       name: PropTypes.string.isRequired
-    }).isRequired).isRequired,
+    }).isRequired
+  ).isRequired,
   products: PropTypes.arrayOf(PropTypes.shape()).isRequired,
   measurements: PropTypes.arrayOf(PropTypes.shape()).isRequired,
   saveRecipe: PropTypes.func.isRequired
@@ -113,7 +130,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  saveRecipe: (data) => {
+  saveRecipe: data => {
     dispatch(actions.addRecipe(data));
   }
 });
