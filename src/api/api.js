@@ -3,10 +3,10 @@ import {
   productsRef,
   measurementsRef,
   recipesRef
-} from '../config/firebase';
+} from "../config/firebase";
 
 export function addRecipe(recipe) {
-  let recipeKey = '';
+  let recipeKey = "";
   if (!recipe.key) {
     recipeKey = recipesRef.push().key;
     recipe.key = recipeKey;
@@ -18,11 +18,11 @@ export function addRecipe(recipe) {
   return true;
 }
 export function getRecipes() {
-  return recipesRef.once('value');
+  return recipesRef.once("value");
 }
 
 export function saveProduct(product) {
-  let productKey = '';
+  let productKey = "";
   if (!product.key) {
     productKey = productsRef.push().key;
     product.key = productKey;
@@ -35,9 +35,9 @@ export function saveProduct(product) {
 }
 
 export function getProducts() {
-  return productsRef.once('value');
+  return productsRef.once("value");
 }
 
 export function getMeasurements() {
-  return measurementsRef.once('value');
+  return measurementsRef.once("value");
 }

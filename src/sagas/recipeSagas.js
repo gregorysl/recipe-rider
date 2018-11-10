@@ -1,6 +1,6 @@
-import { put, call } from 'redux-saga/effects';
-import * as api from '../api/api';
-import * as types from '../constants/actionTypes';
+import { put, call } from "redux-saga/effects";
+import * as api from "../api/api";
+import * as types from "../constants/actionTypes";
 
 export function* getRecipes() {
   try {

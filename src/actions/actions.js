@@ -1,4 +1,4 @@
-import * as types from '../constants/actionTypes';
+import * as types from "../constants/actionTypes";
 
 export const addRecipe = recipe => ({
   type: types.ADD_RECIPE_REQUEST,

@@ -1,9 +1,13 @@
-import { combineReducers } from 'redux';
-import * as types from '../constants/actionTypes';
+import { combineReducers } from "redux";
+import * as types from "../constants/actionTypes";
 
 function compare(a, b) {
-  if (a.name < b.name) { return -1; }
-  if (a.name > b.name) { return 1; }
+  if (a.name < b.name) {
+    return -1;
+  }
+  if (a.name > b.name) {
+    return 1;
+  }
   return 0;
 }
 

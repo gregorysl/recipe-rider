@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import * as actions from '../actions/actions';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import * as actions from "../actions/actions";
 
 class Main extends Component {
   componentDidMount() {
@@ -10,9 +10,7 @@ class Main extends Component {
     this.props.getMeasurements();
   }
   render() {
-    return (
-      <div />
-    );
+    return <div />;
   }
 }
 
@@ -21,7 +19,6 @@ Main.propTypes = {
   getRecipes: PropTypes.func.isRequired,
   getMeasurements: PropTypes.func.isRequired
 };
-
 
 const mapStateToProps = state => ({
   products: state.product,
@@ -37,4 +34,3 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(Main);
-
