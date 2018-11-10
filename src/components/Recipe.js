@@ -57,6 +57,7 @@ class Recipe extends Component {
     const { measurements, products } = this.props;
     let computedValue = 0;
     values.products.forEach(element => {
+      if (!element) return;
       if (measurements.length > 1 && products.length > 1) {
         const selMeasurement = filterByKey(measurements, element.measurement);
         const selProd = filterByKey(products, element.product);
@@ -94,14 +95,6 @@ class Recipe extends Component {
     });
   }
 
-  checkProduct = (rule, value, callback) => {
-    if (value.name !== "" && value.product !== "") {
-      callback();
-      return;
-    }
-    callback("Price must greater than zero!");
-  };
-
   render() {
     const { getFieldDecorator } = this.props.form;
     const formItemLayout = {
@@ -119,17 +112,13 @@ class Recipe extends Component {
     const { productKeys } = this.state;
     const formItems = productKeys.map(k => (
       <FormItem {...formItemLayout} required={false} key={k}>
-        {/* eslint-disable  */
-        getFieldDecorator(`products[${k}]`, {
-          rules: [{ validator: this.checkProduct }]
-        })(
+        {getFieldDecorator(`products[${k}]`, {})(
           <AddProductToRecipe
+            currentProducts={this.props.form.getFieldValue("products")}
             measurements={measurements}
             products={this.props.products}
           />
-        )
-        /* eslint-enable */
-        }
+        )}
         {productKeys.length > 1 ? (
           <Icon
             className="dynamic-delete-button"

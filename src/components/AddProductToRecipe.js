@@ -61,10 +61,11 @@ class AddProductToRecipe extends Component {
 
   render() {
     const { state } = this;
-    const data = this.props.products.map(d => (
-      <Option key={d.key}>{d.name}</Option>
-    ));
-
+    const { currentProducts } = this.props;
+    const currentKeys = currentProducts.map(x => (!x ? null : x.product));
+    const availableOptions = this.props.products
+      .filter(x => x.key === state.product || currentKeys.indexOf(x.key) === -1)
+      .map(d => <Option key={d.key}>{d.name}</Option>);
     return (
       <span>
         <Select
@@ -78,7 +79,7 @@ class AddProductToRecipe extends Component {
           }
           style={{ width: "40%", marginRight: "2%" }}
         >
-          {data}
+          {availableOptions}
         </Select>
         <Input
           type="number"
@@ -105,6 +106,7 @@ AddProductToRecipe.defaultProps = {
 
 AddProductToRecipe.propTypes = {
   measurements: PropTypes.arrayOf(PropTypes.shape()),
+  currentProducts: PropTypes.arrayOf(PropTypes.object).isRequired,
   products: PropTypes.arrayOf(PropTypes.object).isRequired,
   onChange: PropTypes.func,
   value: PropTypes.shape({
