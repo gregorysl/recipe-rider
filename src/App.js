@@ -9,8 +9,6 @@ import "antd/lib/card/style/css";
 import "antd/lib/col/style/css";
 import "antd/lib/row/style/css";
 
-const currencyFormatter = require("currency-formatter");
-
 function findProductName(data, key) {
   const product = data.filter(x => x.key === key)[0];
   if (!product) {
@@ -36,55 +34,22 @@ class App extends Component {
     this.setState({ recipe, showRecipePanel: true });
   }
   render() {
-    const data = this.props.recipes.map(x => {
-      let vaaa = 0;
-      x.products.forEach(element => {
-        if (
-          this.props.measurements.length > 1 &&
-          this.props.products.length > 1
-        ) {
-          const selProd = this.props.products.filter(
-            p => p.key === element.product
-          )[0];
-          let value = 0;
-          if (this.props.measurements.length > 1 && selProd && element.amount) {
-            const selMeasurement = this.props.measurements.filter(
-              a => a.key === element.measurement
-            )[0];
-            if (selMeasurement.main) {
-              value =
-                (element.amount * selProd.unitPrice) /
-                selProd[element.measurement];
-            } else {
-              const main = this.props.measurements.filter(
-                a => a.key === selMeasurement.parent
-              )[0];
-              value =
-                (element.amount *
-                  selProd[element.measurement] *
-                  selProd.unitPrice) /
-                selProd[main.key];
-            }
-            vaaa += value;
-          }
-        }
-      });
-      vaaa = currencyFormatter.format(vaaa, { code: "PLN" });
-
-      const products = x.products.map(p => (
+    const { measurements, products, recipes } = this.props;
+    const data = recipes.map(x => {
+      const productsShow = x.products.map(p => (
         <p key={p.product}>
-          {p.amount} {findProductName(this.props.measurements, p.measurement)}{" "}
-          {findProductName(this.props.products, p.product)}
+          {p.amount} {findProductName(measurements, p.measurement)}{" "}
+          {findProductName(products, p.product)}
         </p>
       ));
       return (
         <Col key={x.key} xs={24} sm={12} md={8} lg={6} xl={6}>
           <Card
             key={x.key}
-            title={`${x.name} - cena: ${vaaa}`}
+            title={`${x.name} - cena: ${x.cost}`}
             extra={<Button onClick={() => this.handleClick(x)}>Edytuj</Button>}
           >
-            {products}
+            {productsShow}
             <p>{x.details}</p>
           </Card>
         </Col>
@@ -99,7 +64,7 @@ class App extends Component {
           <AddRecipe
             recipe={this.state.recipe}
             close={this.close}
-            measurements={this.props.measurements}
+            measurements={measurements}
             saveRecipe={this.props.saveRecipe}
           />
         )}

@@ -9,8 +9,16 @@ import "antd/lib/icon/style/css";
 import "antd/lib/form/style/css";
 import "antd/lib/button/style/css";
 
+const currencyFormatter = require("currency-formatter");
 const { TextArea } = Input;
 
+function filterByKey(data, key) {
+  const product = data.filter(x => x.key === key);
+  if (product.length !== 1) {
+    console.log({ data, key, error: "found more than one" });
+  }
+  return product[0];
+}
 const FormItem = Form.Item;
 let uuid = 0;
 class AddRecipe extends Component {
@@ -24,6 +32,7 @@ class AddRecipe extends Component {
     this.remove = this.remove.bind(this);
     this.add = this.add.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.calculatePrice = this.calculatePrice.bind(this);
   }
 
   remove(k) {
@@ -45,13 +54,41 @@ class AddRecipe extends Component {
       productKeys: nextKeys
     });
   }
-
+  calculatePrice(values) {
+    const { measurements, products } = this.props;
+    let computedValue = 0;
+    values.products.forEach(element => {
+      if (measurements.length > 1 && products.length > 1) {
+        const selMeasurement = filterByKey(measurements, element.measurement);
+        const selProd = filterByKey(products, element.product);
+        let value = 0;
+        if (selProd && element.amount) {
+          if (selMeasurement.main) {
+            value =
+              (element.amount * selProd.unitPrice) /
+              selProd[element.measurement];
+          } else {
+            const main = filterByKey(measurements, selMeasurement.parent);
+            value =
+              (element.amount *
+                selProd[element.measurement] *
+                selProd.unitPrice) /
+              selProd[main.key];
+          }
+          computedValue += value;
+        }
+      }
+    });
+    computedValue = currencyFormatter.format(computedValue, { code: "PLN" });
+    return computedValue;
+  }
   handleSubmit(e) {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
         console.log("Received values of form: ", values);
         values.productKeys = this.state.productKeys;
+        values.cost = this.calculatePrice(values);
         this.props.saveRecipe(values);
         this.props.close();
       }
