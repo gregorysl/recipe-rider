@@ -111,7 +111,7 @@ class Recipe extends Component {
     const title = recipe.key ? "Edytuj" : "Dodaj";
     const { productKeys } = this.state;
     const formItems = productKeys.map(k => (
-      <FormItem {...formItemLayout} required={false} key={k}>
+      <FormItem label="Produkt" {...formItemLayout} required={false} key={k}>
         {getFieldDecorator(`products[${k}]`, {})(
           <AddProductToRecipe
             currentProducts={this.props.form.getFieldValue("products")}
@@ -119,14 +119,14 @@ class Recipe extends Component {
             products={this.props.products}
           />
         )}
-        {productKeys.length > 1 ? (
+        {productKeys.length > 1 && (
           <Icon
             className="dynamic-delete-button"
             type="minus-circle-o"
             disabled={productKeys.length === 1}
             onClick={() => this.remove(k)}
           />
-        ) : null}
+        )}
       </FormItem>
     ));
     getFieldDecorator("key");
@@ -141,7 +141,7 @@ class Recipe extends Component {
               ]
             })(<Input placeholder="Nazwa" type="text" />)}
           </FormItem>
-          <FormItem {...formItemLayout}>
+          <FormItem label=" " colon={false} {...formItemLayout}>
             <Button type="dashed" onClick={this.add}>
               <Icon type="plus" /> Dodaj Składnik
             </Button>
