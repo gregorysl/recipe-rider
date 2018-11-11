@@ -2,8 +2,8 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Button, Card, Col, Row } from "antd";
 import PropTypes from "prop-types";
-import Recipe from "./components/Recipe";
-import * as actions from "./actions/actions";
+import Recipe from "./Recipe";
+import * as actions from "../actions/actions";
 import "antd/lib/button/style/css";
 import "antd/lib/card/style/css";
 import "antd/lib/col/style/css";
@@ -16,7 +16,7 @@ function findProductName(data, key) {
   }
   return product.name;
 }
-class App extends Component {
+class RecipesPage extends Component {
   constructor(props) {
     super(props);
 
@@ -73,8 +73,7 @@ class App extends Component {
   }
 }
 
-/* eslint-disable indent */
-App.propTypes = {
+RecipesPage.propTypes = {
   recipes: PropTypes.arrayOf(
     PropTypes.shape({
       key: PropTypes.string.isRequired,
@@ -85,7 +84,6 @@ App.propTypes = {
   products: PropTypes.arrayOf(PropTypes.shape()).isRequired,
   measurements: PropTypes.arrayOf(PropTypes.shape()).isRequired,
   saveRecipe: PropTypes.func.isRequired
-  /* eslint-enable */
 };
 const mapStateToProps = state => ({
   recipes: state.recipes,
@@ -102,4 +100,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(App);
+)(RecipesPage);
