@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { Input, Icon, Form, Button } from "antd";
 import AddProductToRecipe from "./AddProductToRecipe";
+import { filterByKey } from "../helpers";
 import "antd/lib/input/style/css";
 import "antd/lib/icon/style/css";
 import "antd/lib/form/style/css";
@@ -11,13 +12,6 @@ import "antd/lib/button/style/css";
 const currencyFormatter = require("currency-formatter");
 const { TextArea } = Input;
 
-function filterByKey(data, key) {
-  const product = data.filter(x => x.key === key);
-  if (product.length !== 1) {
-    console.log({ data, key, error: "found more than one" });
-  }
-  return product[0];
-}
 const FormItem = Form.Item;
 let uuid = 0;
 class Recipe extends Component {

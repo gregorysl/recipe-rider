@@ -4,6 +4,7 @@ import { Button, Card, Col, Row } from "antd";
 import PropTypes from "prop-types";
 import Product from "./Product";
 import * as actions from "../actions/actions";
+import { findProductName } from "../helpers";
 import "antd/lib/button/style/css";
 import "antd/lib/card/style/css";
 import "antd/lib/col/style/css";
@@ -11,16 +12,6 @@ import "antd/lib/row/style/css";
 
 const scrollToElement = require("scroll-to-element");
 
-function findProductName(data, key) {
-  if (data.length > 1) {
-    const product = data.filter(x => x.key === key)[0];
-    if (!product) {
-      return key;
-    }
-    return product.name;
-  }
-  return key;
-}
 class ProductsPage extends Component {
   constructor(props) {
     super(props);

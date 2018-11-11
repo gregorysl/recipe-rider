@@ -3,19 +3,13 @@ import { connect } from "react-redux";
 import { Button, Card, Col, Row } from "antd";
 import PropTypes from "prop-types";
 import Recipe from "./Recipe";
+import { findProductName } from "../helpers";
 import * as actions from "../actions/actions";
 import "antd/lib/button/style/css";
 import "antd/lib/card/style/css";
 import "antd/lib/col/style/css";
 import "antd/lib/row/style/css";
 
-function findProductName(data, key) {
-  const product = data.filter(x => x.key === key)[0];
-  if (!product) {
-    return key;
-  }
-  return product.name;
-}
 class RecipesPage extends Component {
   constructor(props) {
     super(props);
