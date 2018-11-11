@@ -6,7 +6,6 @@ import "antd/lib/select/style/css";
 const { Option } = Select;
 
 const MeasurementUnit = props => {
-  /* eslint-disable react/jsx-indent */
   const options = props.data
     ? props.data.map(x => (
         <Option key={x.key} value={x.key}>
@@ -14,7 +13,6 @@ const MeasurementUnit = props => {
         </Option>
       ))
     : null;
-  /* eslint-enable */
   return (
     <Select
       style={props.style}

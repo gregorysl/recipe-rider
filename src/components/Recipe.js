@@ -47,7 +47,6 @@ class Recipe extends Component {
   add() {
     const { productKeys } = this.state;
     const nextKeys = productKeys.concat(uuid);
-    // eslint-disable-next-line
     uuid++;
     this.setState({
       productKeys: nextKeys

@@ -96,14 +96,11 @@ class Product extends Component {
           })(<Input name="name" />)}
         </FormItem>
         <FormItem label="Domyślna miara" {...formItemLayout}>
-          {/* eslint-disable react/jsx-indent */
-          getFieldDecorator("measurement", {
+          {getFieldDecorator("measurement", {
+            rules: [{ required: true, message: "Podaj domyślną miarę" }],
             initialValue: defaults,
-            valuePropName: "defaultValue",
-            rules: [{ required: true, message: "Podaj domyślną miarę" }]
-          })(<MeasurementUnit data={measurements} />)
-          /* eslint-enable */
-          }
+            valuePropName: "defaultValue"
+          })(<MeasurementUnit data={measurements} />)}
         </FormItem>
         <FormItem label="Cena Jednostkowa" {...formItemLayout}>
           {getFieldDecorator("unitPrice", {

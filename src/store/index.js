@@ -5,7 +5,6 @@ import sagas from "../sagas/sagas";
 
 const configureStore = () => {
   const sagaMiddleware = createSagaMiddleware();
-  /* eslint-disable no-underscore-dangle */
   const composeEnhancers =
     window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
   return {
@@ -15,7 +14,6 @@ const configureStore = () => {
     ),
     runSaga: sagaMiddleware.run
   };
-  /* eslint-enable */
 };
 
 const store = configureStore();

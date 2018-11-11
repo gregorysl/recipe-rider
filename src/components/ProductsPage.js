@@ -110,7 +110,6 @@ class ProductsPage extends Component {
   }
 }
 ProductsPage.propTypes = {
-  /* eslint-disable indent */
   products: PropTypes.arrayOf(
     PropTypes.shape({
       key: PropTypes.string.isRequired,
@@ -127,7 +126,6 @@ ProductsPage.propTypes = {
   ).isRequired,
   measurements: PropTypes.arrayOf(PropTypes.shape()),
   saveProduct: PropTypes.func.isRequired
-  /* eslint-enable */
 };
 
 ProductsPage.defaultProps = { measurements: [] };
