@@ -110,14 +110,9 @@ class Recipe extends Component {
             currentProducts={this.props.form.getFieldValue("products")}
             measurements={measurements}
             products={this.props.products}
-          />
-        )}
-        {productKeys.length > 1 && (
-          <Icon
-            className="dynamic-delete-button"
-            type="minus-circle-o"
-            disabled={productKeys.length === 1}
-            onClick={() => this.remove(k)}
+            index={k}
+            productKeys={productKeys.length}
+            removeClick={this.remove}
           />
         )}
       </FormItem>

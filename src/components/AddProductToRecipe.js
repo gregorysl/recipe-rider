@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { Input, Select, Row, Col } from "antd";
+import { Button, Input, Select, Row, Col } from "antd";
 import MeasurementUnit from "./MeasurementUnit";
+import { filterByKey } from "../helpers";
 import "antd/lib/input/style/css";
 import "antd/lib/select/style/css";
 
@@ -16,6 +17,7 @@ class AddProductToRecipe extends Component {
     this.handleAmountChange = this.handleAmountChange.bind(this);
     this.handleProductChange = this.handleProductChange.bind(this);
     this.handleMeasurementChange = this.handleMeasurementChange.bind(this);
+    this.remove = this.remove.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -26,9 +28,7 @@ class AddProductToRecipe extends Component {
   }
 
   handleProductChange = product => {
-    const { measurement } = this.props.products.filter(
-      x => x.key === product
-    )[0];
+    const { measurement } = filterByKey(this.props.products, product);
 
     this.triggerChange({ product, measurement });
   };
@@ -41,6 +41,10 @@ class AddProductToRecipe extends Component {
     this.triggerChange({ measurement });
   };
 
+  remove = () => {
+    this.props.removeClick(this.props.index);
+  };
+
   triggerChange = changedValue => {
     const { onChange } = this.props;
     if (onChange) {
@@ -50,11 +54,12 @@ class AddProductToRecipe extends Component {
 
   render() {
     const { state } = this;
-    const { currentProducts } = this.props;
+    const { currentProducts, productKeys } = this.props;
     const currentKeys = currentProducts.map(x => (!x ? null : x.product));
     const availableOptions = this.props.products
       .filter(x => x.key === state.product || currentKeys.indexOf(x.key) === -1)
       .map(d => <Option key={d.key}>{d.name}</Option>);
+    const colums = productKeys > 1 ? { xs: 22, sm: 6 } : { xs: 24, sm: 8 };
     return (
       <Row>
         <Col sm={24} md={8}>
@@ -82,12 +87,19 @@ class AddProductToRecipe extends Component {
           </Col>
         )}
         {state.product && (
-          <Col sm={24} md={8}>
+          <Col {...colums}>
             <MeasurementUnit
               data={this.props.measurements}
               defaultValue={state.measurement}
               onChange={this.handleMeasurementChange}
             />
+          </Col>
+        )}
+        {productKeys > 1 && (
+          <Col sm={2} md={2}>
+            <Button onClick={this.remove} type="danger">
+              Usuń
+            </Button>
           </Col>
         )}
       </Row>
@@ -103,8 +115,11 @@ AddProductToRecipe.defaultProps = {
 AddProductToRecipe.propTypes = {
   measurements: PropTypes.arrayOf(PropTypes.shape()),
   currentProducts: PropTypes.arrayOf(PropTypes.object).isRequired,
+  productKeys: PropTypes.number.isRequired,
+  index: PropTypes.number.isRequired,
   products: PropTypes.arrayOf(PropTypes.object).isRequired,
   onChange: PropTypes.func,
+  removeClick: PropTypes.func.isRequired,
   value: PropTypes.shape({
     amount: PropTypes.string,
     product: PropTypes.string
