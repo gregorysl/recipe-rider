@@ -104,7 +104,13 @@ class Recipe extends Component {
     const title = recipe.key ? "Edytuj" : "Dodaj";
     const { productKeys } = this.state;
     const formItems = productKeys.map(k => (
-      <FormItem label="Produkt" {...formItemLayout} required={false} key={k}>
+      <FormItem
+        label={productKeys.length > 1 && k !== 0 ? "  " : "Produkty"}
+        colon={k === 0}
+        {...formItemLayout}
+        required={false}
+        key={k}
+      >
         {getFieldDecorator(`products[${k}]`, {})(
           <AddProductToRecipe
             currentProducts={this.props.form.getFieldValue("products")}
