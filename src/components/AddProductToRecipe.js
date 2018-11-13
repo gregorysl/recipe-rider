@@ -70,7 +70,7 @@ class AddProductToRecipe extends Component {
             optionFilterProp="name"
             onChange={this.handleProductChange}
             filterOption={(input, option) =>
-              option.props.children.indexOf(input) >= 0
+              option.props.children.toLowerCase().includes(input.toLowerCase())
             }
           >
             {availableOptions}
