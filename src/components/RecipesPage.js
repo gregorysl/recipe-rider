@@ -30,7 +30,7 @@ class RecipesPage extends Component {
   render() {
     const { measurements, products, recipes } = this.props;
     const data = recipes.map(x => {
-      const productsShow = x.products.map(p => (
+      const productsShow = Object.values(x.products).map(p => (
         <p key={p.product}>
           {p.amount} {findProductName(measurements, p.measurement)}{" "}
           {findProductName(products, p.product)}
