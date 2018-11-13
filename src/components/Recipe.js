@@ -103,10 +103,10 @@ class Recipe extends Component {
     const { recipe, measurements } = this.props;
     const title = recipe.key ? "Edytuj" : "Dodaj";
     const { productKeys } = this.state;
-    const formItems = productKeys.map(k => (
+    const formItems = productKeys.map((k, i) => (
       <FormItem
-        label={productKeys.length > 1 && k !== 0 ? "  " : "Produkty"}
-        colon={k === 0}
+        label={productKeys.length > 1 && i !== 0 ? "  " : "Produkty"}
+        colon={i === 0}
         {...formItemLayout}
         required={false}
         key={k}
