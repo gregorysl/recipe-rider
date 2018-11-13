@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Input, Form, Button, InputNumber, Switch } from "antd";
 import MeasurementUnit from "./MeasurementUnit";
+import { filterByKey } from "../helpers";
 import "antd/lib/input/style/css";
 import "antd/lib/form/style/css";
 import "antd/lib/button/style/css";
@@ -69,7 +70,7 @@ class Product extends Component {
     let main = null;
     let additional = null;
     if (measurements.length > 0) {
-      const products = measurements.filter(x => x.key === selectedValue)[0];
+      const products = filterByKey(measurements, selectedValue);
       const mains = products.main ? products.key : products.parent;
       main = mapFilteredNumberFields(
         measurements,
