@@ -70,7 +70,7 @@ class Recipe extends Component {
                 selProd.unitPrice) /
               selProd[main.key];
           }
-          computedValue += value;
+          computedValue += Number.isNaN(value) ? 0 : value;
         }
       }
     });
