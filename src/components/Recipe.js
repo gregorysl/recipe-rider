@@ -17,15 +17,17 @@ let uuid = 0;
 class Recipe extends Component {
   constructor(props) {
     super(props);
-    const pk = this.props.recipe.productKeys;
-    this.state = { productKeys: pk || [] };
-    if (pk) {
-      uuid = pk.sort()[pk.length - 1] + 1;
-    }
     this.remove = this.remove.bind(this);
     this.add = this.add.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.calculatePrice = this.calculatePrice.bind(this);
+  }
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (!prevState || prevState.key !== nextProps.recipe.key) {
+      const pk = nextProps.recipe.productKeys;
+      uuid = pk ? pk.sort()[pk.length - 1] + 1 : 0;
+      return { key: nextProps.recipe.key, productKeys: pk || [] };
+    }
   }
 
   remove(k) {
