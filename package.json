@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "antd": "^3.10.5",
-    "axios": "^0.18.0",
+    "axios": "^0.21.1",
     "currency-formatter": "^1.5.3",
     "filesize": "^3.6.1",
     "firebase": "^7.24.0",
