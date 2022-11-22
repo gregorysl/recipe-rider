@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "antd": "^3.10.5",
+    "antd": "^5.0.1",
     "axios": "^0.21.2",
     "currency-formatter": "^1.5.3",
     "filesize": "^3.6.1",
