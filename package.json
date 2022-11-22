@@ -13,7 +13,7 @@
     "react-dom": "16.13.1",
     "react-redux": "^5.1.0",
     "react-router-dom": "^4.3.1",
-    "react-scripts": "3.4.1",
+    "react-scripts": "5.0.1",
     "redux": "^4.0.1",
     "redux-saga": "^0.16.2",
     "scroll-to-element": "^2.0.2"
