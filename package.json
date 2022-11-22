@@ -3,11 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "antd": "^3.10.5",
+    "antd": "^5.0.0",
     "axios": "^0.21.2",
     "currency-formatter": "^1.5.3",
     "filesize": "^3.6.1",
-    "firebase": "^7.24.0",
+    "firebase": "^9.14.0",
     "node-sass": "^7.0.3",
     "react": "16.13.1",
     "react-dom": "16.13.1",
