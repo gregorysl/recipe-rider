@@ -8,7 +8,7 @@
     "currency-formatter": "^1.5.3",
     "filesize": "^3.6.1",
     "firebase": "^9.14.0",
-    "node-sass": "^7.0.3",
+    "node-sass": "^9.0.0",
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-redux": "^5.1.0",
